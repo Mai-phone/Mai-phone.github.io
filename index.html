@@ -1839,6 +1839,141 @@ body.theme-mint .chat-input { background: rgba(232, 239, 234, 0.6); }
     display: block !important;
 }
 
+/* --- Music Together Styles --- */
+.mt-visual-area {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    min-height: 300px;
+}
+.mt-avatars {
+    display: flex;
+    align-items: center;
+    gap: 60px; /* 头像间距 */
+    position: relative;
+    margin-bottom: 30px;
+}
+.mt-avatar-container {
+    width: 70px;
+    height: 70px;
+    position: relative;
+    z-index: 2;
+}
+.mt-avatar {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    border: 3px solid rgba(255,255,255,0.2);
+    object-fit: cover;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+/* 连体耳机线效果 */
+.mt-cable {
+    position: absolute;
+    top: 35px; /* 头像中心高度 */
+    left: 35px; /* 左头像中心 */
+    right: 35px; /* 右头像中心 */
+    height: 50px; /* 下垂深度 */
+    border-bottom: 2px solid rgba(255,255,255,0.6);
+    border-left: 2px solid rgba(255,255,255,0.6);
+    border-right: 2px solid rgba(255,255,255,0.6);
+    border-radius: 0 0 40px 40px; /* U型圆角 */
+    z-index: 1;
+    pointer-events: none;
+}
+.mt-headphone {
+    position: absolute;
+    top: 25px;
+    width: 12px;
+    height: 24px;
+    background: white;
+    border-radius: 6px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+.mt-headphone.left { right: -8px; }
+.mt-headphone.right { left: -8px; }
+
+.mt-cover-container {
+    width: 220px;
+    height: 220px;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+    margin-top: 10px;
+    position: relative;
+}
+.mt-cover { width: 100%; height: 100%; object-fit: cover; transition: transform 20s linear; }
+.mt-cover.playing { animation: rotate 20s linear infinite; border-radius: 50%; } /* 播放时变圆旋转 */
+
+.mt-lyrics-area {
+    height: 100px;
+    overflow: hidden;
+    mask-image: linear-gradient(to bottom, transparent, black 20%, black 80%, transparent);
+    -webkit-mask-image: linear-gradient(to bottom, transparent, black 20%, black 80%, transparent);
+    text-align: center;
+    margin-bottom: 10px;
+    position: relative;
+}
+.mt-lyrics-scroll {
+    transition: transform 0.3s ease-out;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 40px; /* 初始偏移 */
+}
+.mt-lyric-line {
+    padding: 6px 10px;
+    color: rgba(255,255,255,0.4);
+    font-size: 14px;
+    transition: all 0.3s;
+    min-height: 30px;
+}
+.mt-lyric-line.active {
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    text-shadow: 0 0 10px rgba(255,255,255,0.3);
+    transform: scale(1.05);
+}
+
+.mt-controls-area {
+    background: rgba(255,255,255,0.1);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-radius: 30px 30px 0 0;
+    padding: 25px 25px;
+    padding-bottom: max(25px, env(safe-area-inset-bottom));
+    border-top: 1px solid rgba(255,255,255,0.1);
+}
+.mt-info { margin-bottom: 20px; }
+.mt-song-title { font-size: 20px; font-weight: bold; margin-bottom: 5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.mt-song-artist { font-size: 14px; color: rgba(255,255,255,0.6); }
+
+.mt-progress { display: flex; align-items: center; gap: 10px; margin-bottom: 25px; font-size: 12px; color: rgba(255,255,255,0.5); font-family: 'SF Pro Display'; }
+#mt-prog-bar { flex: 1; accent-color: white; height: 4px; border-radius: 2px; }
+
+.mt-buttons { display: flex; justify-content: space-between; align-items: center; padding: 0 10px; }
+.mt-btn-main {
+    width: 64px; height: 64px; border-radius: 50%;
+    background: white; color: black; border: none;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 5px 20px rgba(255,255,255,0.2);
+    transition: transform 0.1s;
+}
+.mt-btn-main:active { transform: scale(0.95); }
+.mt-btn-sub { background: transparent; border: none; color: white; opacity: 0.7; transition: opacity 0.2s; }
+.mt-btn-sub:active { opacity: 1; }
+
+.mt-list-item {
+    display: flex; align-items: center; padding: 10px; border-radius: 10px; margin-bottom: 5px; cursor: pointer;
+}
+.mt-list-item:active { background: rgba(255,255,255,0.1); }
+.mt-list-item.active { background: rgba(255,255,255,0.15); }
+.mt-list-item.active .mt-list-title { color: var(--accent); }
+
 </style>
 <style id="global-font-style"></style>
 <!-- CSS_PLACEHOLDER -->
@@ -2312,7 +2447,7 @@ body.theme-mint .chat-input { background: rgba(232, 239, 234, 0.6); }
                 <div class="plus-icon-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" style="width:28px"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg></div>
                 <span>位置</span>
             </div>
-            <div class="plus-item" onclick="Toast.show('功能开发中...')">
+            <div class="plus-item" onclick="MusicTogether.open()">
                 <div class="plus-icon-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" style="width:28px"><path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle></svg></div>
                 <span>一起听</span>
             </div>
@@ -3120,6 +3255,76 @@ body.theme-mint .chat-input { background: rgba(232, 239, 234, 0.6); }
             <div>论坛功能开发中...</div>
         </div>
     </div>
+
+    <!-- --- 17_music_together.html --- -->
+    <div id="sub-music-together" class="app-window" style="background:#222;color:white;z-index:300">
+        <div id="mt-bg-layer" style="position:absolute;top:0;left:0;width:100%;height:100%;background-size:cover;background-position:center;opacity:0.3;filter:blur(30px);z-index:0"></div>
+        <div style="position:relative;z-index:1;display:flex;flex-direction:column;height:100%">
+            <div class="nav-bar" style="background:transparent;border:none;color:white">
+                <button class="nav-btn" onclick="App.b()" style="color:white"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="15 18 9 12 15 6"></polyline></svg></button>
+                <div class="nav-title" style="color:white">一起听</div>
+                <button class="nav-btn" onclick="MusicTogether.showPlaylist()" style="color:white"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg></button>
+            </div>
+            
+            <div class="mt-visual-area">
+                <div class="mt-avatars">
+                    <div class="mt-avatar-container">
+                        <img id="mt-av-me" src="" class="mt-avatar">
+                        <div class="mt-headphone left"></div>
+                    </div>
+                    <div class="mt-avatar-container">
+                        <img id="mt-av-ai" src="" class="mt-avatar">
+                        <div class="mt-headphone right"></div>
+                    </div>
+                    <div class="mt-cable"></div>
+                </div>
+                
+                <div class="mt-cover-container">
+                    <img id="mt-cover" src="" class="mt-cover">
+                </div>
+            </div>
+
+            <div class="mt-lyrics-area">
+                <div id="mt-lyrics-scroll" class="mt-lyrics-scroll">
+                    <div class="mt-lyric-line">暂无歌词</div>
+                </div>
+            </div>
+
+            <div class="mt-controls-area">
+                <div class="mt-info">
+                    <div id="mt-song-title" class="mt-song-title">Song Title</div>
+                    <div id="mt-song-artist" class="mt-song-artist">Artist</div>
+                </div>
+                
+                <div class="mt-progress">
+                    <span id="mt-time-curr">00:00</span>
+                    <input type="range" id="mt-prog-bar" min="0" max="100" value="0" oninput="MusicTogether.seek(this.value)">
+                    <span id="mt-time-total">00:00</span>
+                </div>
+                
+                <div class="mt-buttons">
+                    <button class="mt-btn-sub" onclick="MusicTogether.toggleMode()"><svg id="mt-mode-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" style="width:24px"><path d="M23 4v6h-6"></path><path d="M1 20v-6h6"></path><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg></button>
+                    <button class="mt-btn-sub" onclick="MusicTogether.prev()"><svg viewBox="0 0 24 24" fill="currentColor" style="width:28px"><polygon points="19 20 9 12 19 4 19 20"></polygon><line x1="5" y1="19" x2="5" y2="5"></line></svg></button>
+                    <button class="mt-btn-main" onclick="MusicTogether.togglePlay()">
+                        <svg id="mt-play-icon" viewBox="0 0 24 24" fill="currentColor" style="width:32px"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                    </button>
+                    <button class="mt-btn-sub" onclick="MusicTogether.next()"><svg viewBox="0 0 24 24" fill="currentColor" style="width:28px"><polygon points="5 4 15 12 5 20 5 4"></polygon><line x1="19" y1="5" x2="19" y2="19"></line></svg></button>
+                    <button class="mt-btn-sub" onclick="MusicTogether.recommend()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" style="width:24px"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg></button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Playlist Drawer -->
+        <div id="mt-playlist-drawer" style="position:absolute;bottom:0;left:0;width:100%;height:60%;background:rgba(30,30,30,0.95);backdrop-filter:blur(20px);border-radius:20px 20px 0 0;transform:translateY(100%);transition:transform 0.3s;z-index:10;display:flex;flex-direction:column;padding:20px">
+            <div style="display:flex;justify-content:space-between;margin-bottom:15px">
+                <span style="font-weight:bold;font-size:18px">播放列表</span>
+                <span onclick="$('mt-playlist-drawer').style.transform='translateY(100%)'" style="cursor:pointer">✕</span>
+            </div>
+            <div id="mt-playlist-content" style="flex:1;overflow-y:auto"></div>
+        </div>
+    </div>
+    <!-- Global Audio Element -->
+    <audio id="global-audio" preload="auto"></audio>
 
 </div> <!-- End of iphone-screen -->
 
@@ -6137,7 +6342,14 @@ const ChatSettings = {
         $('set-user-persona').value = c.userPersona || '';
         $('set-context-limit').value = c.contextLimit || 20;
         let history = c.history || [];
-        let estTokens = JSON.stringify(history).length; 
+        let estTokens = 0;
+        history.forEach(m => {
+            if (m.content && typeof m.content === 'string' && m.content.startsWith('data:')) {
+                estTokens += 800; // 图片估算为 800 tokens
+            } else {
+                estTokens += JSON.stringify(m).length;
+            }
+        });
         if($('stat-msg-count')) $('stat-msg-count').innerText = history.length;
         if($('stat-token-count')) $('stat-token-count').innerText = estTokens;
         
@@ -8090,6 +8302,239 @@ const SharedReading = {
     }
 };
 
+// --- apps/music_together.js ---
+const MusicTogether = {
+    playlist: [
+        { title: "Rainy Day", artist: "Lo-Fi Chill", src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3", cover: "https://source.unsplash.com/random/300x300?rain", lyrics: ["[00:00.00]Rainy Day - Lo-Fi Chill", "[00:05.00]Listening to the rain...", "[00:10.00]Feeling calm and relaxed...", "[00:20.00]Just you and me...", "[00:30.00]Forever together..."] },
+        { title: "Sunny Vibes", artist: "Pop Star", src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3", cover: "https://source.unsplash.com/random/300x300?sun", lyrics: ["[00:00.00]Sunny Vibes - Pop Star", "[00:05.00]Walking in the sun...", "[00:15.00]Everything is bright...", "[00:25.00]Let's dance together!"] },
+        { title: "Night Drive", artist: "Synthwave", src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3", cover: "https://source.unsplash.com/random/300x300?night", lyrics: ["[00:00.00]Night Drive - Synthwave", "[00:10.00]Driving through the city...", "[00:20.00]Neon lights everywhere...", "[00:40.00]Speeding up..."] }
+    ],
+    currentIndex: 0,
+    isPlaying: false,
+    mode: 'sequence', // sequence, loop, random
+    audio: null,
+    lyrics: [],
+    
+    init() {
+        this.audio = $('global-audio');
+        this.audio.addEventListener('timeupdate', () => this.updateProgress());
+        this.audio.addEventListener('ended', () => this.next());
+        this.loadPlaylist();
+    },
+
+    open() {
+        App.o('sub-music-together');
+        this.updateUI();
+        
+        // Set Avatars
+        let c = DB.getContact(Chat.cid);
+        let me = DB.d.ownerProfile;
+        $('mt-av-me').src = me.avatar || Utils.defAv;
+        $('mt-av-ai').src = c ? (c.avatar || Utils.defAv) : Utils.defAv;
+        
+        if (!this.audio.src) {
+            this.loadSong(0);
+        }
+    },
+
+    loadSong(index) {
+        this.currentIndex = index;
+        let song = this.playlist[this.currentIndex];
+        this.audio.src = song.src;
+        this.parseLyrics(song.lyrics);
+        this.updateUI();
+        if (this.isPlaying) this.audio.play();
+    },
+
+    togglePlay() {
+        if (this.audio.paused) {
+            this.play();
+        } else {
+            this.pause();
+        }
+    },
+
+    play() {
+        this.audio.play();
+        this.isPlaying = true;
+        this.updatePlayIcon();
+        $('mt-cover').classList.add('playing');
+    },
+
+    pause() {
+        this.audio.pause();
+        this.isPlaying = false;
+        this.updatePlayIcon();
+        $('mt-cover').classList.remove('playing');
+    },
+
+    prev() {
+        this.currentIndex = (this.currentIndex - 1 + this.playlist.length) % this.playlist.length;
+        this.loadSong(this.currentIndex);
+        this.play();
+    },
+
+    next() {
+        if (this.mode === 'random') {
+            this.currentIndex = Math.floor(Math.random() * this.playlist.length);
+        } else if (this.mode === 'loop') {
+            this.audio.currentTime = 0;
+            this.play();
+            return;
+        } else {
+            this.currentIndex = (this.currentIndex + 1) % this.playlist.length;
+        }
+        this.loadSong(this.currentIndex);
+        this.play();
+    },
+
+    seek(val) {
+        let time = (val / 100) * this.audio.duration;
+        this.audio.currentTime = time;
+    },
+
+    toggleMode() {
+        const modes = ['sequence', 'loop', 'random'];
+        const icons = {
+            'sequence': '<path d="M23 4v6h-6"></path><path d="M1 20v-6h6"></path><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>', // Refresh icon as sequence/cycle
+            'loop': '<path d="M17 1l4 4-4 4"></path><path d="M3 11V9a4 4 0 0 1 4-4h14"></path><path d="M7 23l-4-4 4-4"></path><path d="M21 13v2a4 4 0 0 1-4 4H3"></path>', // Repeat
+            'random': '<path d="M16 3h5v5"></path><path d="M4 20L21 3"></path><path d="M21 16v5h-5"></path><path d="M15 15l-5 5"></path><path d="M4 4l5 5"></path>' // Shuffle
+        };
+        
+        let idx = modes.indexOf(this.mode);
+        this.mode = modes[(idx + 1) % modes.length];
+        $('mt-mode-icon').innerHTML = icons[this.mode];
+        
+        let modeNames = {'sequence': '列表循环', 'loop': '单曲循环', 'random': '随机播放'};
+        Toast.show(modeNames[this.mode]);
+    },
+
+    updateUI() {
+        let song = this.playlist[this.currentIndex];
+        $('mt-song-title').innerText = song.title;
+        $('mt-song-artist').innerText = song.artist;
+        $('mt-cover').src = song.cover;
+        $('mt-bg-layer').style.backgroundImage = `url(${song.cover})`;
+        this.updatePlayIcon();
+        this.renderPlaylist();
+    },
+
+    updatePlayIcon() {
+        let icon = this.isPlaying ?
+            '<rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect>' :
+            '<polygon points="5 3 19 12 5 21 5 3"></polygon>';
+        $('mt-play-icon').innerHTML = icon;
+    },
+
+    updateProgress() {
+        if (!this.audio.duration) return;
+        let curr = this.audio.currentTime;
+        let dur = this.audio.duration;
+        let pct = (curr / dur) * 100;
+        
+        $('mt-prog-bar').value = pct;
+        $('mt-time-curr').innerText = this.fmtTime(curr);
+        $('mt-time-total').innerText = this.fmtTime(dur);
+        
+        this.updateLyrics(curr);
+    },
+
+    fmtTime(s) {
+        let m = Math.floor(s / 60);
+        let sec = Math.floor(s % 60);
+        return `${m.toString().padStart(2,'0')}:${sec.toString().padStart(2,'0')}`;
+    },
+
+    parseLyrics(lrcArr) {
+        this.lyrics = lrcArr.map(line => {
+            let match = line.match(/\[(\d{2}):(\d{2}\.\d{2})\](.*)/);
+            if (match) {
+                return {
+                    time: parseInt(match[1]) * 60 + parseFloat(match[2]),
+                    text: match[3]
+                };
+            }
+            return null;
+        }).filter(l => l);
+        
+        let scroll = $('mt-lyrics-scroll');
+        scroll.innerHTML = '';
+        this.lyrics.forEach((l, i) => {
+            let div = document.createElement('div');
+            div.className = 'mt-lyric-line';
+            div.id = `lyric-${i}`;
+            div.innerText = l.text;
+            scroll.appendChild(div);
+        });
+    },
+
+    updateLyrics(time) {
+        let activeIdx = -1;
+        for (let i = 0; i < this.lyrics.length; i++) {
+            if (time >= this.lyrics[i].time) {
+                activeIdx = i;
+            } else {
+                break;
+            }
+        }
+        
+        if (activeIdx !== -1) {
+            document.querySelectorAll('.mt-lyric-line').forEach(el => el.classList.remove('active'));
+            let el = $(`lyric-${activeIdx}`);
+            if (el) {
+                el.classList.add('active');
+                let scroll = $('mt-lyrics-scroll');
+                // Center the active line
+                let offset = el.offsetTop - scroll.offsetHeight / 2 + el.offsetHeight / 2;
+                scroll.style.transform = `translateY(-${Math.max(0, offset)}px)`;
+            }
+        }
+    },
+
+    showPlaylist() {
+        $('mt-playlist-drawer').style.transform = 'translateY(0)';
+    },
+
+    renderPlaylist() {
+        let c = $('mt-playlist-content');
+        c.innerHTML = '';
+        this.playlist.forEach((s, i) => {
+            let div = document.createElement('div');
+            div.className = `mt-list-item ${i === this.currentIndex ? 'active' : ''}`;
+            div.innerHTML = `
+                <div style="font-size:14px;font-weight:bold;color:${i === this.currentIndex ? 'var(--accent)' : 'white'}" class="mt-list-title">${s.title}</div>
+                <div style="font-size:12px;color:rgba(255,255,255,0.6);margin-left:auto">${s.artist}</div>
+            `;
+            div.onclick = () => {
+                this.loadSong(i);
+                this.play();
+            };
+            c.appendChild(div);
+        });
+    },
+    
+    loadPlaylist() {
+        // In a real app, this might load from DB or API
+        this.renderPlaylist();
+    },
+
+    recommend() {
+        let song = this.playlist[this.currentIndex];
+        let c = DB.getContact(Chat.cid);
+        if (!c) return Toast.show("请先选择聊天对象");
+        
+        if (confirm(`向 ${c.name} 推荐歌曲《${song.title}》?`)) {
+            Chat.send(null, 'text', {content: `我正在听《${song.title}》，觉得很适合你~ 🎵`});
+            Toast.show("已推荐");
+            
+            // AI Reaction Simulation
+            setTimeout(() => {
+                Chat.triggerAI(`[SYSTEM: User recommended a song "${song.title}" by ${song.artist}. Listen to it and give a short comment.]`);
+            }, 2000);
+        }
+    }
+};
+
 // --- apps/world.js ---
 const World = {
     eid: null,
@@ -8382,7 +8827,7 @@ const LineApp = {
 
 // --- boot.js ---
 $('chat-input').addEventListener('keydown', e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();Chat.handleSendBtn()}});
-DB.init().then(()=>{ Contacts.render(); Settings.init(); XhsApp.init(); World.render(); LifeOS.init(); SharedReading.init(); setInterval(() => { try { App.tick(); } catch(e) { console.error(e); } }, 1000); App.tick(); });
+DB.init().then(()=>{ Contacts.render(); Settings.init(); XhsApp.init(); World.render(); LifeOS.init(); SharedReading.init(); MusicTogether.init(); setInterval(() => { try { App.tick(); } catch(e) { console.error(e); } }, 1000); App.tick(); });
 
 </script>
 </body>
