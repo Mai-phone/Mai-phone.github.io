@@ -14,22 +14,25 @@
 <style>
 /* --- 00_vars.css --- */
 :root {
-    /* Default Theme (Pink/Light) */
-    --bg-wallpaper: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
-    --dock-bg: rgba(255, 255, 255, 0.4);
-    --app-bg: #fff;
-    --card-bg: rgba(255, 255, 255, 0.65);
-    --accent: #FFD5D5; --accent-dark: #ffb7b7;
-    --text-main: #595959;
-    --text-sub: #999;
-    --line-bubble-me: #FFD5D5; --line-text-me: #595959; --line-bubble-ai: #ffffff; --line-text-ai: #595959;
-    --border: rgba(255, 255, 255, 0.6); --danger: #ff3b30; --safe-top: env(safe-area-inset-top); --safe-bottom: env(safe-area-inset-bottom);
-    --glass-bg: rgba(255, 255, 255, 0.75);
-    --glass-border: rgba(255, 255, 255, 0.8);
-    --glass-shadow: 0 8px 32px rgba(31, 38, 135, 0.05);
-    --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+    /* Modern Minimalist Theme */
+    --bg-wallpaper: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%); /* Soft Blue-Grey Gradient */
+    --dock-bg: rgba(255, 255, 255, 0.6);
+    --app-bg: #ffffff;
+    --card-bg: #ffffff;
+    --accent: #000000; --accent-dark: #333333; /* Black Accent for Minimalist */
+    --text-main: #1d1d1f;
+    --text-sub: #86868b;
+    --line-bubble-me: #000000; --line-text-me: #ffffff;
+    --line-bubble-ai: #f2f2f7; --line-text-ai: #1d1d1f;
+    --border: rgba(0, 0, 0, 0.05);
+    --danger: #ff3b30;
+    --safe-top: env(safe-area-inset-top); --safe-bottom: env(safe-area-inset-bottom);
+    --glass-bg: rgba(255, 255, 255, 0.85);
+    --glass-border: rgba(255, 255, 255, 0.5);
+    --glass-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    --ease-spring: cubic-bezier(0.25, 0.8, 0.25, 1);
     --app-font-scale: 1;
-    --transfer-bg: #FFF0F5; --transfer-accent: #FFD5D5;
+    --transfer-bg: #f5f5f7; --transfer-accent: #000000;
 }
 
 /* Responsive Root Font Size */
@@ -126,30 +129,36 @@ textarea { resize: none; min-height: 5rem; line-height: 1.4; }
 .typing-dot { width: 6px; height: 6px; background: #999; border-radius: 50%; animation: typing 1.4s infinite ease-in-out both; }
 .typing-dot:nth-child(1) { animation-delay: -0.32s; } .typing-dot:nth-child(2) { animation-delay: -0.16s; }
 
-/* Modern UI Tokens */
-.ui-modern { background: #F8F9FA !important; }
+/* Modern UI Tokens - Soft UI / iOS Style */
+.ui-modern { background: #F2F4F6 !important; }
 .card-modern {
-    background: white; border-radius: 20px; padding: 20px;
-    box-shadow: 0 10px 40px -10px rgba(0,0,0,0.05); margin-bottom: 15px;
-    display: flex; flex-direction: column; gap: 15px;
+    background: #ffffff;
+    border-radius: 24px; /* Larger radius */
+    padding: 24px;
+    box-shadow: 0 10px 30px -5px rgba(0,0,0,0.04), 0 4px 10px rgba(0,0,0,0.01); /* Softer, diffused shadow */
+    margin-bottom: 20px;
+    display: flex; flex-direction: column; gap: 16px;
+    border: 1px solid rgba(0,0,0,0.02);
 }
 .btn-pill {
-    border-radius: 50px; padding: 12px 25px; font-weight: 600; font-size: 14px;
-    border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 5px;
-    transition: transform 0.1s;
+    border-radius: 50px; padding: 14px 28px; font-weight: 600; font-size: 15px;
+    border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px;
+    transition: all 0.2s cubic-bezier(0.25, 0.8, 0.25, 1);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
 }
-.btn-pill:active { transform: scale(0.96); }
-.btn-black { background: #1a1a1a; color: white; }
-.btn-white { background: white; color: #1a1a1a; border: 1px solid #eee; }
-.btn-danger { background: #ff3b30; color: white; } /* Solid Red */
-.btn-danger-soft { background: #fff0f0; color: #ff3b30; }
+.btn-pill:active { transform: scale(0.96); box-shadow: 0 2px 6px rgba(0,0,0,0.05); }
+.btn-black { background: #000000; color: white; }
+.btn-white { background: #ffffff; color: #1d1d1f; border: 1px solid rgba(0,0,0,0.05); box-shadow: 0 2px 8px rgba(0,0,0,0.03); }
+.btn-danger { background: #ff3b30; color: white; }
+.btn-danger-soft { background: #fff2f2; color: #ff3b30; box-shadow: none; }
 .input-modern {
-    background: #F8F9FA; border: 1px solid transparent; border-radius: 12px;
-    padding: 12px; font-size: 15px; width: 100%; outline: none;
+    background: #f5f5f7; border: 1px solid transparent; border-radius: 16px;
+    padding: 14px 18px; font-size: 16px; width: 100%; outline: none;
+    transition: all 0.2s;
 }
-.input-modern:focus { background: white; border-color: var(--accent); box-shadow: 0 0 0 4px rgba(var(--accent-rgb), 0.1); }
+.input-modern:focus { background: #ffffff; border-color: rgba(0,0,0,0.1); box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
 .label-modern {
-    font-size: 12px; color: #999; font-weight: 600; text-transform: uppercase; margin-bottom: 5px; letter-spacing: 0.5px;
+    font-size: 13px; color: #86868b; font-weight: 600; text-transform: uppercase; margin-bottom: 8px; letter-spacing: 0.5px;
 }
 
 
@@ -176,6 +185,7 @@ textarea { resize: none; min-height: 5rem; line-height: 1.4; }
     flex: 1; display: flex; flex-direction: column;
     padding-top: max(var(--safe-top), 10px);
     overflow: hidden;
+    background: #f8f9fa;
 }
 
 .main-card {
@@ -1041,94 +1051,176 @@ body.theme-mint .chat-input { background: rgba(232, 239, 234, 0.6); }
 
 
 /* --- 06_reading.css --- */
-/* 共读功能样式 - 莫兰迪毛玻璃风格 */
-#reading-drawer { 
-    position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
-    background: #e9e5d6; /* 默认沙丘米色 */
-    z-index: 300; transform: translateY(100%); transition: transform 0.3s cubic-bezier(0.2, 0.9, 0.3, 1.1); 
-    display: flex; flex-direction: column; 
+/* 共读功能样式 - Modern Minimalist / Soft UI */
+#reading-drawer {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: #F9FAFB; /* 更现代的灰白背景 */
+    z-index: 300; transform: translateY(100%); transition: transform 0.3s cubic-bezier(0.32, 1, 0.23, 1);
+    display: flex; flex-direction: column;
 }
 #reading-drawer.active { transform: translateY(0); }
-.reading-paper { 
+.reading-paper {
     flex: 1; margin: 0; background: transparent;
-    padding: 25px 30px; overflow-y: auto; 
-    font-size: 18px; line-height: 2.0; color: #2c2c2c; font-family: 'Songti SC', serif; white-space: pre-wrap; 
+    padding: 25px 30px; overflow-y: auto;
+    font-size: 18px; line-height: 2.0; color: #2c2c2c; font-family: 'Songti SC', serif; white-space: pre-wrap;
+    word-wrap: break-word; word-break: break-all;
     transition: padding-bottom 0.3s;
 }
 .reading-settings-panel {
-    position: absolute; top: 60px; left: 15px; width: 260px; background: rgba(255,255,255,0.6);
-    backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-    border-radius: 16px; box-shadow: 0 10px 40px rgba(0,0,0,0.1);
-    padding: 20px; display: none; flex-direction: column; gap: 15px; z-index: 50; 
-    border: 1px solid rgba(255,255,255,0.4);
+    position: absolute; top: 60px; left: 15px; width: 260px;
+    background: rgba(255,255,255,0.85);
+    backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px);
+    border-radius: 24px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.1);
+    padding: 25px; display: none; flex-direction: column; gap: 20px; z-index: 50;
+    border: 1px solid rgba(255,255,255,0.5);
 }
 .reading-settings-panel.active { display: flex; animation: fade-in 0.2s; }
-.reading-paper.shrink { padding-bottom: 50vh !important; }
+.reading-paper.shrink {
+    height: 55% !important;
+    flex: none !important;
+    padding-bottom: 20px !important;
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+}
 /* 头部和底部 - iOS 极致毛玻璃 */
-.reading-header { 
-    height: 50px; display: flex; align-items: center; justify-content: space-between; padding: 0 20px; 
-    background: rgba(255,255,255,0.01); backdrop-filter: blur(20px) saturate(180%); -webkit-backdrop-filter: blur(20px) saturate(180%);
-    border-bottom: 0.5px solid rgba(0,0,0,0.05); z-index: 10; 
+.reading-header {
+    height: 50px; display: flex; align-items: center; justify-content: space-between; padding: 0 20px;
+    background: rgba(255,255,255,0.8); backdrop-filter: blur(20px) saturate(180%); -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border-bottom: none; box-shadow: 0 4px 20px rgba(0,0,0,0.03); z-index: 10;
 }
-.reading-footer { 
-    height: auto; padding: 12px 20px; padding-bottom: calc(12px + env(safe-area-inset-bottom)); 
-    background: rgba(255,255,255,0.01); backdrop-filter: blur(20px) saturate(180%); -webkit-backdrop-filter: blur(20px) saturate(180%);
-    border-top: 0.5px solid rgba(0,0,0,0.05);
-    display: flex; justify-content: space-between; align-items: center; gap: 15px; z-index: 10; 
+.reading-footer {
+    height: auto; padding: 12px 20px; padding-bottom: calc(12px + env(safe-area-inset-bottom));
+    background: rgba(255,255,255,0.8); backdrop-filter: blur(20px) saturate(180%); -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border-top: none; box-shadow: 0 -4px 20px rgba(0,0,0,0.03);
+    display: flex; justify-content: space-between; align-items: center; gap: 15px; z-index: 10;
+    transition: opacity 0.3s, transform 0.3s;
 }
-.color-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; }
-.color-opt { width: 32px; height: 32px; border-radius: 50%; cursor: pointer; border: 1px solid rgba(0,0,0,0.1); box-shadow: 0 2px 8px rgba(0,0,0,0.05); transition: transform 0.2s; }
+.reading-footer.hidden { opacity: 0; pointer-events: none; transform: translateY(20px); }
+.color-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; }
+.color-opt {
+    width: 36px; height: 36px; border-radius: 50%; cursor: pointer;
+    border: 2px solid rgba(255,255,255,0.5);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+    transition: transform 0.2s;
+}
 .color-opt:active { transform: scale(0.9); }
+
 /* 悬浮玻璃胶囊按钮 */
-.resonance-btn { 
-    display: flex; align-items: center; gap: 8px; 
-    background: rgba(255,255,255,0.25); 
-    backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
-    border: 0.5px solid rgba(255,255,255,0.4);
-    padding: 8px 20px; border-radius: 30px; 
-    color: #555; font-size: 14px; font-weight: 500;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.05); 
+.resonance-btn {
+    display: flex; align-items: center; gap: 8px;
+    background: rgba(255,255,255,0.4);
+    backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
+    border: 1px solid rgba(255,255,255,0.6);
+    padding: 10px 24px; border-radius: 50px;
+    color: #333; font-size: 14px; font-weight: 600;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.06);
     transition: all 0.2s;
 }
-.resonance-btn:active { transform: scale(0.96); background: rgba(255,255,255,0.4); }
-.resonance-btn svg { color: #8a8a8a; }
+.resonance-btn:active { transform: scale(0.96); background: rgba(255,255,255,0.6); }
+.resonance-btn svg { color: #555; }
 
-.resonance-chat-box { 
-    position: absolute; bottom: 0; left: 0; width: 100%; height: 45%; 
-    background: rgba(255,255,255,0.7); backdrop-filter: blur(30px) saturate(180%); -webkit-backdrop-filter: blur(30px) saturate(180%);
-    border-radius: 30px 30px 0 0; box-shadow: 0 -10px 40px rgba(0,0,0,0.1); 
-    transform: translateY(110%); transition: transform 0.3s cubic-bezier(0.2, 0.9, 0.3, 1.1); 
-    z-index: 310; display: flex; flex-direction: column; border: 1px solid rgba(255,255,255,0.6); 
+/* 心绪聊天框 - 悬浮卡片风格 */
+.resonance-chat-box {
+    position: absolute; bottom: 20px; left: 15px; right: 15px; width: auto; height: 50%;
+    background: rgba(255,255,255,0.95);
+    backdrop-filter: blur(40px) saturate(180%); -webkit-backdrop-filter: blur(40px) saturate(180%);
+    border-radius: 28px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.12), 0 0 0 1px rgba(0,0,0,0.05);
+    transform: translateY(120%); transition: transform 0.4s cubic-bezier(0.32, 1, 0.23, 1);
+    z-index: 310; display: flex; flex-direction: column;
+    border: none;
+    overflow: hidden;
 }
 .resonance-chat-box.active { transform: translateY(0); }
 
-/* 书架样式 */
-#reading-shelf { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(180deg, #fdfbfb 0%, #ebedee 100%); z-index: 290; transform: translateY(100%); transition: transform 0.3s cubic-bezier(0.2, 0.9, 0.3, 1.1); display: flex; flex-direction: column; }
-#reading-shelf.active { transform: translateY(0); }
-.shelf-grid { padding: 20px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; align-content: start; }
-.book-item { display: flex; flex-direction: column; gap: 8px; cursor: pointer; position: relative; transition: transform 0.2s; }
-.book-item:active { transform: scale(0.95); }
-.book-cover { 
-    width: 100%; aspect-ratio: 2/3; background: linear-gradient(45deg, #fff 0%, #f0f0f0 100%); 
-    border-radius: 8px; box-shadow: 5px 5px 15px rgba(0,0,0,0.1), inset 1px 1px 0 rgba(255,255,255,0.8); 
-    display: flex; align-items: center; justify-content: center; color: #ccc; font-size: 24px; position: relative; overflow: hidden; 
+/* 书架样式 - 现代极简 */
+#reading-shelf {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: #F2F4F6; /* 柔和灰白背景 */
+    z-index: 290; transform: translateY(100%); transition: transform 0.3s cubic-bezier(0.2, 0.9, 0.3, 1.1);
+    display: flex; flex-direction: column;
 }
-.book-cover::after { content:''; position:absolute; top:0; right:0; bottom:0; left:0; background: linear-gradient(90deg, rgba(0,0,0,0.05) 0%, transparent 5%, transparent 100%); pointer-events: none; }
-.book-cover.add { border: 2px dashed #ccc; background: transparent; box-shadow: none; color: #999; }
+#reading-shelf.active { transform: translateY(0); }
+.shelf-grid { padding: 25px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 25px; align-content: start; }
+.book-item { display: flex; flex-direction: column; gap: 10px; cursor: pointer; position: relative; transition: transform 0.2s; }
+.book-item:active { transform: scale(0.95); }
+.book-cover {
+    width: 100%; aspect-ratio: 2/3;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.08), 0 2px 5px rgba(0,0,0,0.02); /* 柔和阴影 */
+    display: flex; align-items: center; justify-content: center;
+    color: #ddd; font-size: 28px; position: relative; overflow: hidden;
+    border: 1px solid rgba(0,0,0,0.02);
+}
+.book-cover::after {
+    content:''; position:absolute; top:0; right:0; bottom:0; left:0;
+    background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.2) 50%, rgba(0,0,0,0.02) 100%);
+    pointer-events: none;
+}
+.book-cover.add {
+    border: 2px dashed #d0d0d0; background: transparent; box-shadow: none; color: #ccc;
+}
 .book-cover.add::after { display:none; }
-.book-title { font-size: 13px; text-align: center; color: #555; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; line-height: 1.4; font-weight: 500; }
-.book-del-btn { position: absolute; top: -8px; right: -8px; background: #ff7675; color: white; border-radius: 50%; width: 22px; height: 22px; display: flex; align-items: center; justify-content: center; font-size: 12px; z-index: 10; box-shadow: 0 2px 5px rgba(255,118,117,0.4); }
+.book-title {
+    font-size: 13px; text-align: center; color: #444; font-weight: 600;
+    display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; line-height: 1.4;
+}
+.book-del-btn {
+    position: absolute; top: -8px; right: -8px;
+    background: #ff3b30; color: white; border-radius: 50%;
+    width: 24px; height: 24px; display: flex; align-items: center; justify-content: center;
+    font-size: 12px; z-index: 10;
+    box-shadow: 0 4px 10px rgba(255,59,48,0.3);
+}
 
-.res-chat-header { padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; font-weight: bold; color: var(--text-main); font-size: 16px; border-bottom: 1px solid rgba(0,0,0,0.03); }
-.res-chat-list { flex: 1; overflow-y: auto; padding: 15px; display: flex; flex-direction: column; gap: 10px; }
-.res-chat-input-area { padding: 10px 15px; background: rgba(255,255,255,0.5); display: flex; gap: 10px; padding-bottom: calc(10px + env(safe-area-inset-bottom)); align-items: center; }
-.res-chat-input-area input { background: rgba(255,255,255,0.8); border: 1px solid rgba(0,0,0,0.05); border-radius: 20px; padding: 10px 15px; flex: 1; box-shadow: 0 2px 5px rgba(0,0,0,0.02); transition: all 0.2s; }
-.res-chat-input-area input:focus { background: white; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+.res-chat-header {
+    padding: 18px 25px; display: flex; justify-content: space-between; align-items: center;
+    font-weight: 700; color: #333; font-size: 17px;
+    border-bottom: 1px solid rgba(0,0,0,0.03);
+}
+.res-chat-list { flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 12px; }
+.res-chat-input-area {
+    padding: 12px 15px;
+    background: transparent;
+    display: flex; gap: 8px;
+    padding-bottom: calc(15px + env(safe-area-inset-bottom));
+    align-items: center;
+}
+.res-chat-input-area .circle-btn { width: 32px; height: 32px; flex-shrink: 0; }
+.res-chat-input-area input {
+    background: #F2F4F6;
+    border: 1px solid transparent;
+    border-radius: 24px; padding: 12px 18px; flex: 1;
+    box-shadow: none;
+    transition: all 0.2s; font-size: 15px;
+}
+.res-chat-input-area input:focus { background: #fff; box-shadow: 0 4px 20px rgba(0,0,0,0.08); border-color: rgba(0,0,0,0.1); }
 
-.res-msg { padding: 10px 14px; border-radius: 18px; max-width: 85%; font-size: 14px; line-height: 1.5; box-shadow: 0 2px 5px rgba(0,0,0,0.02); animation: msg-pop-in 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); }
-.res-msg.ai { background: rgba(255,255,255,0.9); align-self: flex-start; border-bottom-left-radius: 4px; color: #555; }
-.res-msg.me { background: linear-gradient(135deg, #a18cd1 0%, #fbc2eb 100%); align-self: flex-end; border-bottom-right-radius: 4px; color: white; }
-.history-drawer { position: absolute; bottom: 0; left: 0; width: 100%; height: 60%; background: white; border-radius: 20px 20px 0 0; box-shadow: 0 -5px 40px rgba(0,0,0,0.1); transform: translateY(100%); transition: transform 0.3s; z-index: 320; display: flex; flex-direction: column; padding: 20px; }
+.res-msg {
+    padding: 12px 16px; border-radius: 18px; max-width: 85%;
+    font-size: 15px; line-height: 1.5;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    animation: msg-pop-in 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    border: none;
+}
+.res-msg.ai {
+    background: #F2F4F6; align-self: flex-start;
+    border-bottom-left-radius: 4px; color: #333;
+}
+.res-msg.me {
+    background: #000000; align-self: flex-end;
+    border-bottom-right-radius: 4px; color: white;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+.history-drawer {
+    position: absolute; bottom: 0; left: 0; width: 100%; height: 60%;
+    background: #fff;
+    border-radius: 32px 32px 0 0;
+    box-shadow: 0 -10px 60px rgba(0,0,0,0.15);
+    transform: translateY(100%); transition: transform 0.3s;
+    z-index: 320; display: flex; flex-direction: column; padding: 25px;
+}
 .history-drawer.active { transform: translateY(0); }
 
 
@@ -1900,6 +1992,7 @@ body.theme-mint .chat-input { background: rgba(232, 239, 234, 0.6); }
         <button class="nav-btn" onclick="SharedReading.toggleHistory()">记录</button>
     </div>
     
+    <div id="reading-settings-overlay" style="position:absolute;top:0;left:0;width:100%;height:100%;z-index:45;display:none" onclick="SharedReading.toggleSettings()"></div>
     <div id="reading-settings-panel" class="reading-settings-panel">
         <div style="font-size:12px;color:#666;font-weight:bold">字号调节</div>
         <div style="display:flex;align-items:center;gap:10px">
@@ -1910,6 +2003,10 @@ body.theme-mint .chat-input { background: rgba(232, 239, 234, 0.6); }
         
         <div style="font-size:12px;color:#666;font-weight:bold;margin-top:5px">背景色调</div>
         <div class="color-grid">
+            <!-- 白天/纯白 -->
+            <div class="color-opt" style="background:#ffffff;border:1px solid #eee" onclick="SharedReading.setTheme('#ffffff', '#1a1a1a')"></div>
+            <!-- 夜间/铅灰 -->
+            <div class="color-opt" style="background:#2c2c2c" onclick="SharedReading.setTheme('#2c2c2c', '#a8aeb5')"></div>
             <!-- 默认/沙丘米色 -->
             <div class="color-opt" style="background:#e9e5d6" onclick="SharedReading.setTheme('#e9e5d6', '#2c2c2c')"></div>
             <!-- 嫩芽白绿 -->
@@ -1926,10 +2023,6 @@ body.theme-mint .chat-input { background: rgba(232, 239, 234, 0.6); }
             <div class="color-opt" style="background:#a8b0b9" onclick="SharedReading.setTheme('#a8b0b9', '#1a1a1a')"></div>
             <!-- 陶土浅灰 -->
             <div class="color-opt" style="background:#e0d8d0" onclick="SharedReading.setTheme('#e0d8d0', '#2c2c2c')"></div>
-            <!-- 杏仁奶色 -->
-            <div class="color-opt" style="background:#d9c4b1" onclick="SharedReading.setTheme('#d9c4b1', '#3d2e24')"></div>
-            <!-- 夜间/铅灰 -->
-            <div class="color-opt" style="background:#2c2c2c" onclick="SharedReading.setTheme('#2c2c2c', '#a8aeb5')"></div>
         </div>
     </div>
 
@@ -2083,7 +2176,7 @@ body.theme-mint .chat-input { background: rgba(232, 239, 234, 0.6); }
         <!-- Bottom Sub Block -->
         <div class="sub-card">
             <div class="sub-banner" onclick="$('banner-upload').click()">
-                 <img id="top-banner-img" src="https://images.unsplash.com/photo-1542838132-92c53300491e?w=800&q=80">
+                 <img id="top-banner-img" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxIiBoZWlnaHQ9IjEiPjxyZWN0IHdpZHRoPSIxIiBoZWlnaHQ9IjEiIGZpbGw9IiNmMmYyZjIiLz48L3N2Zz4=">
             </div>
             <input type="file" id="banner-upload" hidden accept="image/*" onchange="Banner.update(this)">
         </div>
@@ -2207,7 +2300,7 @@ body.theme-mint .chat-input { background: rgba(232, 239, 234, 0.6); }
                 <div class="plus-icon-box" id="narrator-icon-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" style="width:28px"><path d="M20.24 12.24a6 6 0 0 0-8.49-8.49L5 10.5V19h8.5z"></path><line x1="16" y1="8" x2="2" y2="22"></line><line x1="17.5" y1="15" x2="9" y2="15"></line></svg></div>
                 <span>旁白模式 <span id="narrator-indicator" style="font-size: calc(10px * var(--app-font-scale));color:var(--accent);display:none;font-weight:bold">ON</span></span>
             </div>
-<div class="plus-item" onclick="SharedReading.open()">
+<div class="plus-item" onclick="SharedReading.open(Chat.cid)">
                 <div class="plus-icon-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" style="width:28px"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg></div>
                 <span>共读</span>
             </div>
@@ -3430,6 +3523,12 @@ function parseXmlReply(xmlStr) {
                 if (n) item.status[k] = n.textContent;
             });
         }
+
+        // Filter out empty text messages
+        if (item.type === 'text' && !item.content) {
+            continue;
+        }
+
         reply.push(item);
     }
     
@@ -4739,7 +4838,13 @@ const Chat = {
                 blockDiv.className = `msg-block ${isMe?'me':'ai'}`;
                 let stackDiv = document.createElement('div');
                 stackDiv.className = 'bubbles-stack';
+                
+                let renderedCount = 0;
                 group.msgs.forEach((m, idxInGroup) => {
+                    // Filter empty text messages
+                    if (m.type === 'text' && (!m.content || !m.content.trim())) return;
+                    renderedCount++;
+
                     let globalIdx = group.indices[idxInGroup];
                     let msgRow = document.createElement('div');
                     msgRow.style.display = 'flex'; msgRow.style.alignItems = 'center'; msgRow.style.width = '100%';
@@ -4890,6 +4995,7 @@ const Chat = {
                 
                 if (MultiSelect.active) {
                     group.msgs.forEach((m, idxInGroup) => {
+                       if (m.type === 'text' && (!m.content || !m.content.trim())) return;
                        let div = document.createElement('div'); div.className = `msg-block ${isMe?'me':'ai'}`;
                        
                        let contentHTML = '';
@@ -4929,8 +5035,10 @@ const Chat = {
                     blockDiv.appendChild(avImg);
                 }
                 
-                let footerDiv = document.createElement('div'); footerDiv.innerHTML = footerHTML;
-                stackDiv.appendChild(footerDiv); blockDiv.appendChild(stackDiv); con.appendChild(blockDiv);
+                if (renderedCount > 0) {
+                    let footerDiv = document.createElement('div'); footerDiv.innerHTML = footerHTML;
+                    stackDiv.appendChild(footerDiv); blockDiv.appendChild(stackDiv); con.appendChild(blockDiv);
+                }
             });
             if (smooth) {
                 setTimeout(() => {
@@ -5386,6 +5494,7 @@ let transferMatch = /\[TRANSFER:\s*(\d+(?:\.\d+)?)\s*(?:,\s*(.+?))?\]/.exec(part
                         
                         for(let chunk of chunks) {
                             chunk = chunk.trim();
+                            if (!chunk) continue;
                             
                             const voiceMatch = chunk.match(/\[VOICE:\s*(.*?)\]/);
                             const emoticonMatch = chunk.match(/^\{\{emoticon:(.+?)\}\}$/);
@@ -7699,7 +7808,289 @@ const LifeOS = {
 };
 
 
-// --- apps/world.js --- 
+// --- apps/reading.js ---
+const SharedReading = {
+    currentBook: null,
+    currentPage: 0,
+    pageSize: 500,
+    companionId: null,
+    
+    init() {
+        // No global init needed for books anymore, loaded per contact
+    },
+
+    open(cid) {
+        this.companionId = cid;
+        this.renderShelf();
+        $('reading-shelf').classList.add('active');
+    },
+
+    closeShelf() {
+        $('reading-shelf').classList.remove('active');
+    },
+
+    import(inp) {
+        let file = inp.files[0];
+        if(!file) return;
+        let reader = new FileReader();
+        reader.onload = (e) => {
+            let content = e.target.result;
+            let book = {
+                id: Date.now(),
+                title: file.name.replace('.txt', ''),
+                content: content,
+                progress: 0,
+                theme: { bg: '#e9e5d6', text: '#2c2c2c' },
+                history: []
+            };
+            
+            let c = DB.getContact(this.companionId);
+            if(!c) return Toast.show('角色数据错误');
+            if(!c.books) c.books = [];
+            c.books.push(book);
+            
+            DB.save();
+            this.renderShelf();
+            Toast.show('导入成功');
+        };
+        reader.readAsText(file, 'gbk');
+        inp.value = '';
+    },
+
+    renderShelf() {
+        let cEl = $('reading-shelf-list');
+        if(!cEl) return;
+        cEl.innerHTML = '';
+        
+        let c = DB.getContact(this.companionId);
+        let books = c ? (c.books || []) : [];
+
+        books.forEach(b => {
+            let div = document.createElement('div');
+            div.className = 'book-item';
+            div.innerHTML = `
+                <div class="book-cover" style="background:${b.theme?.bg||'#fff'}">${b.title[0]}</div>
+                <span class="book-title">${b.title}</span>
+                <div class="book-del-btn" onclick="event.stopPropagation();SharedReading.delBook('${b.id}')">✕</div>
+            `;
+            div.onclick = () => this.read(b.id);
+            cEl.appendChild(div);
+        });
+        
+        let addBtn = document.createElement('div');
+        addBtn.className = 'book-item';
+        addBtn.onclick = () => $('reading-import').click();
+        addBtn.innerHTML = `<div class="book-cover add">+</div><span class="book-title">导入书籍</span>`;
+        cEl.appendChild(addBtn);
+    },
+
+    delBook(id) {
+        if(confirm('删除这本书?')) {
+            let c = DB.getContact(this.companionId);
+            if(c && c.books) {
+                c.books = c.books.filter(b => b.id != id);
+                DB.save();
+                this.renderShelf();
+            }
+        }
+    },
+
+    read(id) {
+        let c = DB.getContact(this.companionId);
+        if(!c || !c.books) return;
+        this.currentBook = c.books.find(b => b.id == id);
+        if(!this.currentBook) return;
+        
+        if (!this.currentBook.content) {
+             Toast.show("书籍内容为空或损坏");
+             return;
+        }
+
+        $('reading-title').innerText = this.currentBook.title;
+        this.applyTheme(this.currentBook.theme);
+        this.renderPage();
+        $('reading-drawer').classList.add('active');
+        this.closeShelf();
+    },
+
+    closeBook() {
+        $('reading-drawer').classList.remove('active');
+        $('reading-text-area').classList.remove('shrink');
+        $('resonance-chat-box').classList.remove('active');
+        let footer = document.querySelector('.reading-footer');
+        if(footer) footer.classList.remove('hidden');
+        this.currentBook = null;
+        this.open(this.companionId); // 返回书架
+    },
+
+    renderPage() {
+        if(!this.currentBook || !this.currentBook.content) return;
+        let start = this.currentBook.progress || 0;
+        let end = start + this.pageSize;
+        let text = this.currentBook.content.substring(start, end);
+        
+        $('reading-text-area').innerText = text;
+        
+        let pct = Math.round((start / this.currentBook.content.length) * 100);
+        $('reading-progress-disp').innerText = `${pct}%`;
+    },
+
+    prevPage() {
+        if(!this.currentBook) return;
+        this.currentBook.progress = Math.max(0, (this.currentBook.progress || 0) - this.pageSize);
+        DB.save();
+        this.renderPage();
+    },
+
+    nextPage() {
+        if(!this.currentBook) return;
+        if(this.currentBook.progress + this.pageSize >= this.currentBook.content.length) return Toast.show('已读完');
+        this.currentBook.progress += this.pageSize;
+        DB.save();
+        this.renderPage();
+    },
+
+    toggleSettings() {
+        let p = $('reading-settings-panel');
+        let o = $('reading-settings-overlay');
+        if(p.style.display === 'flex') {
+             p.classList.remove('active');
+             if(o) o.style.display = 'none';
+             setTimeout(() => p.style.display = 'none', 200);
+        } else {
+             p.style.display = 'flex';
+             if(o) o.style.display = 'block';
+             // Force reflow
+             p.offsetHeight;
+             p.classList.add('active');
+        }
+    },
+
+    setTheme(bg, text) {
+        if(!this.currentBook) return;
+        this.currentBook.theme = { bg, text };
+        DB.save();
+        this.applyTheme(this.currentBook.theme);
+    },
+
+    applyTheme(t) {
+        if(!t) return;
+        $('reading-drawer').style.background = t.bg;
+        $('reading-text-area').style.color = t.text;
+    },
+
+    toggleChat() {
+        let box = $('resonance-chat-box');
+        let footer = document.querySelector('.reading-footer');
+        box.classList.toggle('active');
+        $('reading-text-area').classList.toggle('shrink');
+        if(box.classList.contains('active')) {
+            this.renderChat();
+            if(footer) footer.classList.add('hidden');
+        } else {
+            if(footer) footer.classList.remove('hidden');
+        }
+    },
+
+    renderChat() {
+        let list = $('res-chat-list');
+        list.innerHTML = '';
+        let history = this.currentBook.history || [];
+        history.forEach(msg => {
+            let div = document.createElement('div');
+            div.className = `res-msg ${msg.role === 'user' ? 'me' : 'ai'}`;
+            div.innerText = msg.content;
+            list.appendChild(div);
+        });
+        list.scrollTop = list.scrollHeight;
+    },
+
+    async sendReply() {
+        let inp = $('res-chat-input');
+        let val = inp.value.trim();
+        if(!val) return;
+        
+        if(!this.currentBook.history) this.currentBook.history = [];
+        this.currentBook.history.push({ role: 'user', content: val });
+        DB.save();
+        this.renderChat();
+        inp.value = '';
+        
+        // Removed auto trigger
+    },
+
+    async triggerReply(userContext = '') {
+        let p = DB.getPreset();
+        if(!p || !p.key) return Toast.show('API未配置');
+        
+        let c = DB.getContact(this.companionId);
+        if(!c) return Toast.show('角色数据丢失');
+
+        if(!this.currentBook || !this.currentBook.content) return Toast.show('书籍内容无效');
+
+        Toast.show('TA正在阅读...');
+        
+        let start = this.currentBook.progress || 0;
+        let text = this.currentBook.content.substring(start, start + this.pageSize);
+        
+        // Get last user message if context is empty
+        if (!userContext && this.currentBook.history && this.currentBook.history.length > 0) {
+            let last = this.currentBook.history[this.currentBook.history.length - 1];
+            if (last.role === 'user') userContext = last.content;
+        }
+
+        let prompt = `Roleplay: You are ${c.name}. We are reading a book together.
+        Persona: ${c.charPersona}
+        Book Title: ${this.currentBook.title}
+        Current Text Segment: "${text.substring(0, 300)}..."
+        
+        User said: "${userContext}"
+        
+        Task: Reply to User as a reading companion. Share thoughts, feelings, or discuss the text.
+        
+        【CRITICAL RULES】:
+        1. Keep it short and conversational. Use the character's tone.
+        2. **Strictly NO action descriptions** (e.g. *smiles*, *nods*, *looks at page*).
+        3. **Strictly NO expression descriptions**.
+        4. Only output spoken words or internal monologue (if 1st person).
+        5. Treat this as an online chat message, not a novel.`;
+
+        try {
+            let res = await fetch(`${p.url}/chat/completions`, {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json', 'Authorization': `Bearer ${p.key}`},
+                body: JSON.stringify({ model: p.model, messages: [{role:'user', content: prompt}], temperature: 0.7 })
+            });
+            let d = await res.json();
+            let reply = d.choices[0].message.content;
+            
+            this.currentBook.history.push({ role: 'ai', content: reply });
+            DB.save();
+            this.renderChat();
+            
+        } catch(e) {
+            console.error(e);
+            Toast.show('AI响应失败');
+        }
+    },
+
+    toggleHistory() {
+        let d = $('reading-history');
+        d.classList.toggle('active');
+        if(d.classList.contains('active')) {
+            let list = $('reading-history-list');
+            list.innerHTML = '';
+            (this.currentBook.history || []).forEach(msg => {
+                let div = document.createElement('div');
+                div.style.cssText = "padding:10px;background:#f9f9f9;border-radius:8px;font-size:12px;margin-bottom:5px";
+                div.innerHTML = `<b>${msg.role==='user'?'我':'TA'}:</b> ${msg.content}`;
+                list.appendChild(div);
+            });
+        }
+    }
+};
+
+// --- apps/world.js ---
 const World = {
     eid: null,
     new() { 
@@ -7989,9 +8380,9 @@ const LineApp = {
 };
 
 
-// --- boot.js --- 
-$('chat-input').addEventListener('keydown', e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();Chat.handleSendBtn()}});  
-DB.init().then(()=>{ Contacts.render(); Settings.init(); XhsApp.init(); World.render(); LifeOS.init(); setInterval(() => { try { App.tick(); } catch(e) { console.error(e); } }, 1000); App.tick(); });
+// --- boot.js ---
+$('chat-input').addEventListener('keydown', e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();Chat.handleSendBtn()}});
+DB.init().then(()=>{ Contacts.render(); Settings.init(); XhsApp.init(); World.render(); LifeOS.init(); SharedReading.init(); setInterval(() => { try { App.tick(); } catch(e) { console.error(e); } }, 1000); App.tick(); });
 
 </script>
 </body>
