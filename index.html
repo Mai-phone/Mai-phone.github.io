@@ -5058,9 +5058,11 @@ const Chat = {
                     
                     let bubbleDiv = document.createElement('div');
                     bubbleDiv.className = 'bubble';
-                    bubbleDiv.id = `msg-${globalIdx}`; 
+                    bubbleDiv.id = `msg-${globalIdx}`;
                     let contentHTML = '';
-                    let quoteHTML = m.quote ? `<div class="quote-ref">回复: ${Utils.esc(m.quote)}</div>` : '';
+                    let qText = m.quote;
+                    if (qText && typeof qText === 'string' && qText.startsWith('data:')) qText = '[图片]';
+                    let quoteHTML = qText ? `<div class="quote-ref">回复: ${Utils.esc(qText)}</div>` : '';
                     
                     if(m.type==='transfer') {
                          bubbleDiv.classList.add('transfer-bubble');
@@ -5461,7 +5463,7 @@ const Chat = {
                 return {
                     role: h.role === 'user' ? 'user' : 'assistant',
                     content: [
-                        { type: "image_url", image_url: { url: h.content } }
+                        { type: "image_url", image_url: { url: h.content, detail: "low" } }
                     ]
                 };
             }
@@ -5643,7 +5645,9 @@ const Chat = {
                                     // If text, update bubble. If not, remove indicator and append new.
                                     if (msg.type === 'text') {
                                         let bub = indicator.querySelector('.bubble');
-                                        let quoteHTML = msg.quote ? `<div class="quote-ref">回复: ${Utils.esc(msg.quote)}</div>` : '';
+                                        let qText = msg.quote;
+                                        if (qText && typeof qText === 'string' && qText.startsWith('data:')) qText = '[图片]';
+                                        let quoteHTML = qText ? `<div class="quote-ref">回复: ${Utils.esc(qText)}</div>` : '';
                                         if(bub) bub.innerHTML = quoteHTML + Utils.esc(msg.content);
                                         indicator.removeAttribute('id'); // Convert to normal bubble
                                         await this.appendMsg('ai', msg.content, 'text', { quote: msg.quote }, true);
@@ -6297,8 +6301,18 @@ const ContextMenu = {
         this.hide();
         let c = DB.getContact(Chat.cid);
         let msg = c.history[this.targetIdx];
-        if(msg) Chat.setQ(msg.content);
-    }, 
+        if(msg) {
+            let content = msg.content;
+            if (msg.type === 'image' || (typeof content === 'string' && content.startsWith('data:'))) {
+                content = '[图片]';
+            } else if (msg.type === 'voice') {
+                content = '[语音]';
+            } else if (msg.type === 'transfer' || msg.type === 'transfer_in') {
+                content = '[转账]';
+            }
+            Chat.setQ(content);
+        }
+    },
     multiSelect() {
         this.hide();
         MultiSelect.active = true;
@@ -6356,10 +6370,12 @@ const ChatSettings = {
         let history = c.history || [];
         let estTokens = 0;
         history.forEach(m => {
-            if (m.content && typeof m.content === 'string' && m.content.startsWith('data:')) {
-                estTokens += 800; // 图片估算为 800 tokens
+            if (m.type === 'image' && m.content && (m.content.startsWith('data:') || m.content.startsWith('http'))) {
+                estTokens += 85; // detail: low 固定消耗
             } else {
-                estTokens += JSON.stringify(m).length;
+                // 只计算实际发送给AI的字段，排除 quote (Base64)
+                let temp = { role: m.role, content: m.content };
+                estTokens += JSON.stringify(temp).length;
             }
         });
         if($('stat-msg-count')) $('stat-msg-count').innerText = history.length;
