@@ -3503,6 +3503,7 @@ The frontend will automatically render it as a "Simulated Image" card, and the u
 ### Functional Instructions (Written inside the content string):
 - **Send Voice**: "[VOICE: Voice text content]" (Frontend will convert to voice bar)
 - **Transfer**: "[TRANSFER: Amount, Note]" (Frontend will render transfer card)
+- **Change Avatar**: "[SET_AVATAR: n]" (Change your avatar to the n-th last image sent by user. n=1 means the latest image. If n is omitted, default is 1.)
 
 ## Status Synchronization (Must be appended AFTER the </reply> tag)
 After the </reply> tag, you **MUST** add a new line and append your current status in XML format:
@@ -5455,16 +5456,26 @@ const Chat = {
         // Include recent history for context
         let recentHistory = c.history.slice(-10).map(m => `${m.role}: ${m.content}`).join('\n');
 
-        let msgs=[{role:'system',content:sys}, ...c.history.slice(-contextLimit).filter(h=>h.role!=='system').map(h=>({
-            role:h.role==='user'?'user':'assistant',
-            content: h.emoticonName ? `{{emoticon:${h.emoticonName}}}` :
+        let msgs=[{role:'system',content:sys}, ...c.history.slice(-contextLimit).filter(h=>h.role!=='system').map(h=>{
+            if (h.type === 'image' && !h.emoticonName && h.content && (h.content.startsWith('data:') || h.content.startsWith('http'))) {
+                return {
+                    role: h.role === 'user' ? 'user' : 'assistant',
+                    content: [
+                        { type: "image_url", image_url: { url: h.content } }
+                    ]
+                };
+            }
+            return {
+                role:h.role==='user'?'user':'assistant',
+                content: h.emoticonName ? `{{emoticon:${h.emoticonName}}}` :
                      (h.type==='transfer' ? `[Transfer to Char: ${h.amount}]` :
                      (h.type==='transfer_in' ? `[Transfer to User: ${h.amount}, Status: ${h.status}]` :
                      (h.type==='transfer_receipt' ? `[System: User received transfer of ${h.amount}]` :
                      (h.content && h.content.startsWith('data:') ?
                         "[图片]"
                         : h.content))))
-        }))];
+            };
+        })];
         if (extraContext) {
             msgs.push({ role: 'user', content: extraContext });
         }
@@ -5521,17 +5532,18 @@ const Chat = {
 
             let replyRaw = fullText;
 
-            const avatarRegex = /\[SET_AVATAR(?::(\d+))?\]/;
+            const avatarRegex = /\[SET_AVATAR(?::\s*(\d+))?\]/i;
             let avatarMatch = replyRaw.match(avatarRegex);
 
             if (avatarMatch) {
                 let backIndex = avatarMatch[1] ? parseInt(avatarMatch[1]) : 1;
+                // Filter for real images (Base64 or URL), excluding emoticons and simulated text-images
                 let validImages = c.history.slice().reverse().filter(m =>
                     m.role === 'user' &&
                     m.type === 'image' &&
                     !m.emoticonName &&
                     m.content &&
-                    m.content.startsWith('data:')
+                    (m.content.startsWith('data:') || m.content.startsWith('http') || m.content.startsWith('blob:'))
                 );
 
                 if (validImages.length > 0 && backIndex > 0 && backIndex <= validImages.length) {
@@ -5549,7 +5561,7 @@ const Chat = {
                     }
                 } else {
                     replyRaw = replyRaw.replace(avatarMatch[0], '').trim();
-                    Toast.show('未找到有效图片');
+                    Toast.show('未找到有效图片 (仅支持真实图片)');
                 }
             }
 
