@@ -132,13 +132,23 @@ textarea { resize: none; min-height: 5rem; line-height: 1.4; }
 /* Modern UI Tokens - Soft UI / iOS Style */
 .ui-modern { background: #F2F4F6 !important; }
 .card-modern {
-    background: #ffffff;
-    border-radius: 24px; /* Larger radius */
+    background: rgba(255, 255, 255, 0.75);
+    backdrop-filter: blur(25px) saturate(180%);
+    -webkit-backdrop-filter: blur(25px) saturate(180%);
+    border-radius: 24px;
     padding: 24px;
-    box-shadow: 0 10px 30px -5px rgba(0,0,0,0.04), 0 4px 10px rgba(0,0,0,0.01); /* Softer, diffused shadow */
+    box-shadow:
+        0 15px 40px -10px rgba(0,0,0,0.08),
+        0 4px 12px rgba(0,0,0,0.04),
+        inset 0 0 0 1px rgba(255,255,255,0.6);
     margin-bottom: 20px;
     display: flex; flex-direction: column; gap: 16px;
-    border: 1px solid rgba(0,0,0,0.02);
+    border: 1px solid rgba(255,255,255,0.4);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+.card-modern:active {
+    transform: scale(0.99);
+    box-shadow: 0 8px 25px -5px rgba(0,0,0,0.1);
 }
 .btn-pill {
     border-radius: 50px; padding: 14px 28px; font-weight: 600; font-size: 15px;
@@ -1516,24 +1526,110 @@ body.theme-mint .chat-input { background: rgba(232, 239, 234, 0.6); }
     display: flex; justify-content: space-between; color: #999; font-size: 0.75rem;
 }
 
-/* Diary Detail Paper Effect */
+/* Diary Detail Paper Effect - Modern Minimalist */
 .d-detail-paper {
-    background: rgba(255, 255, 255, 0.3); /* Lower opacity to show blur better */
-    backdrop-filter: blur(50px) saturate(150%); /* Stronger blur & saturation */
-    -webkit-backdrop-filter: blur(50px) saturate(150%);
-    border-radius: 1.5rem;
-    padding: 1.8rem;
-    margin: 1.25rem 1rem;
-    /* Multi-layered shadow for depth */
-    box-shadow:
-        0 20px 40px rgba(0,0,0,0.08),
-        0 5px 15px rgba(0,0,0,0.05),
-        inset 0 1px 0 rgba(255,255,255,0.6), /* Top highlight */
-        inset 0 -1px 0 rgba(255,255,255,0.2); /* Bottom lowlight */
-    border: 1px solid rgba(255, 255, 255, 0.5); /* Distinct border */
+    background: #ffffff;
+    border-radius: 32px;
+    padding: 32px 24px;
+    margin: 20px 16px;
+    /* Extremely soft and diffused drop shadows for floating depth */
+    box-shadow: 0 20px 60px -10px rgba(0,0,0,0.08), 0 10px 20px -5px rgba(0,0,0,0.02);
+    border: none;
+    position: relative;
+    overflow: hidden;
 }
-.d-detail-date { font-size: 1.5rem; font-weight: bold; margin-bottom: 1.25rem; border-bottom: 2px solid rgba(255,255,255,0.5); padding-bottom: 0.6rem; display: flex; align-items: baseline; }
-.d-detail-body { font-size: 1rem; line-height: 1.8; white-space: pre-wrap; color: var(--text-main); }
+.d-detail-date {
+    font-size: 26px;
+    font-weight: 800;
+    margin-bottom: 30px;
+    border-bottom: none;
+    padding-bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    color: #1d1d1f;
+    font-family: 'SF Pro Display', sans-serif;
+    letter-spacing: -0.5px;
+    position: relative;
+}
+.d-detail-body {
+    font-size: 17px;
+    line-height: 1.8;
+    white-space: pre-wrap;
+    color: #333333;
+    font-weight: 400;
+    letter-spacing: 0.3px;
+    text-align: justify;
+}
+.d-detail-author {
+    text-align: center !important;
+    margin-top: 40px !important;
+    color: #86868b !important;
+    font-size: 13px !important;
+    font-weight: 500 !important;
+    letter-spacing: 1px !important;
+    text-transform: uppercase !important;
+}
+
+/* Diary Fun Elements */
+.diary-blackout {
+    background-color: #000;
+    color: #000;
+    cursor: pointer;
+    padding: 2px 6px;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+    user-select: none;
+    margin: 0 2px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}
+.diary-blackout.revealed {
+    background-color: transparent;
+    color: inherit;
+    text-decoration: none;
+}
+.diary-strike {
+    text-decoration: line-through;
+    text-decoration-color: #000000;
+    text-decoration-thickness: 2px;
+    opacity: 0.8;
+}
+.diary-underline {
+    border-bottom: 2px solid #000000;
+    padding-bottom: 1px;
+}
+.diary-ink {
+    position: relative;
+    display: inline-block;
+}
+.diary-ink::after {
+    content: '';
+    position: absolute;
+    top: 50%; left: 50%;
+    width: 140%; height: 140%;
+    background: radial-gradient(circle, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0) 70%);
+    border-radius: 50%;
+    transform: translate(-50%, -50%) rotate(-5deg);
+    opacity: 0.15;
+    pointer-events: none;
+    z-index: 0;
+}
+.diary-tear {
+    position: relative;
+    display: inline-block;
+}
+.diary-tear::after {
+    content: '';
+    position: absolute;
+    top: 50%; left: 50%;
+    width: 12px; height: 12px;
+    background: rgba(173, 216, 230, 0.4);
+    border-radius: 50% 0 50% 50%;
+    transform: translate(-50%, -50%) rotate(-45deg);
+    box-shadow: 1px 1px 3px rgba(0,0,0,0.1);
+    pointer-events: none;
+}
 
 /* Comment Section */
 .comment-section { padding: 0 1.25rem; }
@@ -1619,53 +1715,22 @@ body.theme-mint .chat-input { background: rgba(232, 239, 234, 0.6); }
     border-color: var(--accent);
 }
 
-/* Dynamic Weather Backgrounds */
+/* Dynamic Weather Backgrounds - Modern Minimalist */
 .diary-weather-bg {
     position: absolute; top:0; left:0; width:100%; height:100%;
     z-index: -1;
     transition: background 0.5s;
     overflow: hidden;
+    background: #F2F4F6; /* Default fallback */
 }
 
-/* Weather Themes */
-.w-sunny { background: linear-gradient(135deg, #fff5f7 0%, #ffeef2 100%); /* Very Pale Pink */ }
-.w-cloudy { background: linear-gradient(135deg, #cfd9df 0%, #e2ebf0 100%); }
-.w-rainy { background: linear-gradient(180deg, #e3ecf5 0%, #b8d2e8 100%); /* Pale Blue */ }
-.w-snowy { background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%); /* Pale Frost */ }
-.w-yin { background: linear-gradient(135deg, #e6e9f0 0%, #eef1f5 100%); /* Very Pale Gray */ }
+/* Minimalist Weather Themes (Soft Gradients) */
+.w-sunny { background: linear-gradient(180deg, #fff9e6 0%, #ffffff 100%); /* Soft Warm Yellow */ }
+.w-cloudy { background: linear-gradient(180deg, #f0f2f5 0%, #ffffff 100%); /* Soft Cool Grey */ }
+.w-rainy { background: linear-gradient(180deg, #e3f2fd 0%, #ffffff 100%); /* Soft Blue */ }
+.w-snowy { background: linear-gradient(180deg, #f5f7fa 0%, #ffffff 100%); /* Soft Ice Blue */ }
+.w-yin { background: linear-gradient(180deg, #eceff1 0%, #ffffff 100%); /* Soft Grey */ }
 
-/* Animations */
-@keyframes snow {
-    0% { transform: translateY(0) translateX(0); opacity: 0.8; }
-    100% { transform: translateY(100vh) translateX(20px); opacity: 0; }
-}
-.snow-flake {
-    position: absolute; width: 6px; height: 6px; 
-    background: radial-gradient(circle, #fff 40%, rgba(255,255,255,0.5) 100%); /* Softer but bigger */
-    box-shadow: 0 0 3px rgba(0,0,0,0.1); /* Slight shadow to see against white */
-    border-radius: 50%;
-    animation: snow 5s linear infinite; top:-10px;
-}
-
-@keyframes rain {
-    0% { transform: translateY(0); opacity: 0.8; }
-    100% { transform: translateY(100vh); opacity: 0.2; }
-}
-.rain-drop {
-    position: absolute; width: 2px; height: 25px; /* Longer */
-    background: linear-gradient(to bottom, rgba(130, 160, 200, 0), rgba(130, 160, 200, 0.8)); /* Blue-ish tint */
-    animation: rain 0.8s linear infinite; top:-30px; /* Faster */
-}
-
-@keyframes sakura {
-    0% { transform: translateY(0) rotate(0deg); opacity: 0.8; }
-    100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
-}
-.sakura-petal {
-    position: absolute; width: 10px; height: 10px; background: #ffc0cb; 
-    border-radius: 10px 0 10px 0; /* Leaf shape */
-    animation: sakura 8s linear infinite; top:-20px;
-}
 
 
 /* --- 99_redesign.css --- */
@@ -2465,7 +2530,7 @@ body.theme-mint .chat-input { background: rgba(232, 239, 234, 0.6); }
         <div class="emoticon-grid" id="emoticon-grid-content"></div>
     </div>
     
-    <input type="file" id="plus-img-local" hidden accept="image/*" onchange="PlusMenu.hImgLocal(this)">
+    <input type="file" id="plus-img-local" hidden multiple accept="image/*" onchange="PlusMenu.hImgLocal(this)">
     <input type="file" id="plus-emoticon-input" multiple hidden accept="image/*" onchange="PlusMenu.hEFiles(this)">
     
     <div id="multi-select-bar" style="position:absolute;bottom:0;width:100%;background:var(--app-bg);z-index:90;padding:15px;display:none;justify-content:space-between;border-top:1px solid var(--border);padding-bottom:calc(15px + var(--safe-bottom));">
@@ -2851,11 +2916,8 @@ body.theme-mint .chat-input { background: rgba(232, 239, 234, 0.6); }
         <div class="nav-bar"><button class="nav-btn" onclick="Diary.closeFolder()">返回</button><div class="nav-title" id="diary-nav-title">想念</div><div style="width:40px"></div></div>
         <div class="scroll-content">
              <div style="padding: 10px; display:flex; gap:10px; margin-bottom:10px">
-                <button class="btn-main" onclick="Diary.writeEntry()" style="flex:1;background:var(--accent);margin:0;box-shadow:0 4px 10px rgba(0,0,0,0.1)">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" style="width:18px;margin-right:5px"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg> 写日记
-                </button>
-                <button class="btn-main" onclick="Diary.showGenOptions()" style="flex:1;background:#fff;color:#333;margin:0;box-shadow:0 4px 10px rgba(0,0,0,0.05)">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" style="width:18px;margin-right:5px"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg> 催更/刷新
+                <button class="btn-main" onclick="Diary.genAiEntry(true)" style="flex:1;background:#fff;color:#333;margin:0;box-shadow:0 4px 10px rgba(0,0,0,0.05)">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" style="width:18px;margin-right:5px"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"></path><circle cx="12" cy="12" r="3"></circle></svg> 偷看日记
                 </button>
              </div>
              <div id="diary-entries-list" class="list-group" style="background:transparent;box-shadow:none">
@@ -2864,56 +2926,18 @@ body.theme-mint .chat-input { background: rgba(232, 239, 234, 0.6); }
         </div>
     </div>
     
-    <div id="sub-diary-detail" class="app-window" style="z-index:210;background:transparent">
-        <div id="diary-weather-bg-detail" class="diary-weather-bg"></div>
-        <div class="nav-bar" style="
-            background: rgba(255, 255, 255, 0.3);
-            backdrop-filter: blur(25px) saturate(180%);
-            -webkit-backdrop-filter: blur(25px) saturate(180%);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.4);
-            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
-            z-index:2;
-            color: var(--text-main);
-        ">
-            <button class="nav-btn" onclick="$('sub-diary-detail').classList.remove('active')" style="color:var(--text-main)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg></button>
-            <div class="nav-title" style="color:var(--text-main);font-weight:bold">日记详情</div>
+    <div id="sub-diary-detail" class="app-window" style="z-index:210;background:#F2F4F6">
+        <div id="diary-weather-bg-detail" class="diary-weather-bg" style="opacity:0.5"></div>
+        <div class="nav-bar" style="background:transparent;border:none;z-index:2;padding-top:10px">
+            <button class="nav-btn" onclick="$('sub-diary-detail').classList.remove('active')" style="color:#1d1d1f;background:rgba(255,255,255,0.8);border-radius:50%;width:40px;height:40px;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 12px rgba(0,0,0,0.05)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" style="width:24px;height:24px;stroke-width:2.5"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg></button>
+            <div class="nav-title" style="color:#1d1d1f;font-weight:700;font-size:17px">日记详情</div>
             <div style="width:40px"></div>
         </div>
-        <div class="scroll-content" style="padding-top:60px;padding-bottom:120px;position:relative;z-index:1">
+        <div class="scroll-content" style="padding-top:10px;padding-bottom:20px;position:relative;z-index:1">
             <div id="diary-detail-content"></div>
-            <div class="comment-section">
-                <div style="font-weight:bold;margin-bottom:10px;font-size:14px;color:#666">互动区</div>
-                <div id="diary-comment-list"></div>
-            </div>
-        </div>
-        <!-- Reusing global chat input style for consistency & floating effect -->
-        <div class="chat-input-area">
-            <input id="diary-comment-input" class="chat-input" placeholder="写下你的想法..." style="background:rgba(255,255,255,0.6)">
-            <button class="circle-btn btn-fill" onclick="Diary.submitComment()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" style="width:16px"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg></button>
         </div>
     </div>
 
-    <div id="sub-diary-write" class="app-window" style="z-index:220;background:transparent">
-        <div id="diary-weather-bg-write" class="diary-weather-bg"></div>
-        <div class="nav-bar" style="background:rgba(255,255,255,0.2);backdrop-filter:blur(10px);border:none;z-index:2">
-            <button class="nav-btn" onclick="$('sub-diary-write').classList.remove('active')" style="color:var(--text-main)">取消</button>
-            <div class="nav-title" style="color:var(--text-main)">写日记</div>
-            <button class="nav-btn" onclick="Diary.saveUserEntry()" style="color:var(--text-main)">发布</button>
-        </div>
-        <div class="scroll-content" style="position:relative;z-index:1">
-            <div style="padding:15px 15px 0 15px;display:flex;gap:10px;align-items:center">
-                <input type="date" id="diary-date-input" class="diary-meta-input">
-                <select id="diary-weather-input" class="diary-meta-input" style="flex:1" onchange="Diary.updateWeatherBg(this.value, 'write')">
-                    <option value="晴">☀️ 晴</option>
-                    <option value="多云">⛅ 多云</option>
-                    <option value="雨">🌧️ 雨</option>
-                    <option value="雪">❄️ 雪</option>
-                    <option value="阴">☁️ 阴</option>
-                </select>
-            </div>
-            <textarea id="diary-write-input" placeholder="今天发生了什么..." style="width:100%;height:300px;background:transparent;border:none;padding:15px;font-size:16px;line-height:1.6;resize:none;margin-top:10px;color:var(--text-main);text-shadow:0 1px 1px rgba(255,255,255,0.5)"></textarea>
-        </div>
-    </div>
     
     <div id="sub-diary-settings" class="app-window" style="z-index:250">
         <div class="nav-bar"><button class="nav-btn" onclick="App.b()">取消</button><div class="nav-title">想念设置</div><div style="width:40px"></div></div>
@@ -3220,6 +3244,11 @@ body.theme-mint .chat-input { background: rgba(232, 239, 234, 0.6); }
                 <div class="label-modern">KEY</div>
                 <input type="text" id="pre-key" class="input-modern" placeholder="sk-..." style="font-family:monospace">
             </div>
+            <div style="display:flex;justify-content:flex-end;margin-top:10px">
+                <button id="btn-test-conn" class="btn-pill btn-white" style="font-size:12px;padding:6px 12px;height:auto" onclick="Settings.testConnection()">
+                    测试连接
+                </button>
+            </div>
         </div>
         
         <button class="btn-pill btn-black" onclick="Settings.fM()" style="width:100%;margin-bottom:20px">拉取模型列表</button>
@@ -3487,23 +3516,33 @@ You **MUST** output a pure XML structure.
 If you want to reply to a specific part of the user's message, add a \`quote\` attribute to the \`<msg>\` tag.
 Example: \`<msg type="text" quote="Really?">Yes, really!</msg>\`
 
-### Special Message Rules (STRICT):
-1. **Standalone Tags**: Special tags like \`[TRANSFER:...]\`, \`[VOICE:...]\`, or \`{{emoticon:...}}\` MUST be in their own separate \`<msg>\` tag.
-2. **No Mixing**: Do NOT mix text with special tags in the same bubble.
-   - WRONG: \`<msg type="text">Here is money [TRANSFER:100]</msg>\`
-   - RIGHT:
+### 【【【 ⚠️ CRITICAL: Special Message Isolation Rules ⚠️ 】】】
+1. **ABSOLUTE ISOLATION**: Special content (Emoticons, Transfers, Voice, Images) **MUST** occupy their own dedicated \`<msg>\` tag.
+2. **STRICTLY FORBIDDEN**: NEVER mix text with special tags in the same bubble.
+   - ❌ WRONG: \`<msg type="text">Haha {{emoticon:laugh}}</msg>\`
+   - ✅ RIGHT:
+     \`<msg type="text">Haha</msg>\`
+     \`<msg type="emoticon">laugh</msg>\`
+
+   - ❌ WRONG: \`<msg type="text">Here is money [TRANSFER:100]</msg>\`
+   - ✅ RIGHT:
      \`<msg type="text">Here is money</msg>\`
      \`<msg type="text">[TRANSFER:100]</msg>\`
+
+3. **Emoticon Specifics**:
+   - To send an emoticon, use \`<msg type="emoticon">emoticon_name</msg>\`.
+   - Do NOT append it to the end of a sentence in the same tag.
 
 【Important Instruction for Sending Images】
 When you want to send a photo, **absolutely DO NOT** send a URL link.
 Please describe the content of the photo in detail in the content (e.g., people, actions, environment, atmosphere in the picture).
 The frontend will automatically render it as a "Simulated Image" card, and the user will see your text description when clicking it.
+Use \`<msg type="image">Description...</msg>\`.
 
-### Functional Instructions (Written inside the content string):
-- **Send Voice**: "[VOICE: Voice text content]" (Frontend will convert to voice bar)
-- **Transfer**: "[TRANSFER: Amount, Note]" (Frontend will render transfer card)
-- **Change Avatar**: "[SET_AVATAR: n]" (Change your avatar to the n-th last image sent by user. n=1 means the latest image. If n is omitted, default is 1.)
+### Functional Instructions:
+- **Send Voice**: Use \`<msg type="text">[VOICE: content]</msg>\` (Must be standalone)
+- **Transfer**: Use \`<msg type="text">[TRANSFER: Amount, Note]</msg>\` (Must be standalone)
+- **Change Avatar**: \`[SET_AVATAR: n]\` (Can be anywhere)
 
 ## Status Synchronization (Must be appended AFTER the </reply> tag)
 After the </reply> tag, you **MUST** add a new line and append your current status in XML format:
@@ -3783,12 +3822,20 @@ const App = {
         if(!window.batteryInit) { this.updateBattery(); window.batteryInit=true; }
 
         // Random Diary Check (Auto Update)
-        if(DB.d.diaryAutoUpdate && Math.random() < 0.0005 && DB.d.activePid) {
-            // Pick a random non-group contact
-            let candidates = DB.d.contacts.filter(c => !c.isGroup);
-            if(candidates.length > 0) {
-                let c = candidates[Math.floor(Math.random() * candidates.length)];
-                Contacts.genDiary(true, c.id);
+        if(DB.d.diaryAutoUpdate && DB.d.diaryAutoList && DB.d.diaryAutoList.length > 0 && DB.d.activePid) {
+            // Check roughly every 16 mins (assuming 1 tick/sec)
+            if(Math.random() < 0.001) {
+                let list = DB.d.diaryAutoList;
+                let randomId = list[Math.floor(Math.random() * list.length)];
+                let c = DB.getContact(randomId);
+                if(c) {
+                    let now = new Date();
+                    let today = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
+                    let hasToday = c.diary && c.diary.some(e => e.type === 'ai' && e.date === today);
+                    if(!hasToday) {
+                        Diary.genAiEntry(false, c.id);
+                    }
+                }
             }
         }
         Countdown.render(); // Update countdowns regularly
@@ -5669,6 +5716,7 @@ const Chat = {
                             if (msg.type === 'text') {
                                 const voiceMatch = msg.content.match(/\[VOICE:\s*(.*?)\]/);
                                 const transferMatch = msg.content.match(/\[TRANSFER:\s*(\d+(?:\.\d+)?)\s*(?:,\s*(.+?))?\]/);
+                                const emoticonMatch = msg.content.match(/\{\{emoticon:(.+?)\}\}/);
                                 
                                 if(voiceMatch) {
                                     let vText = voiceMatch[1];
@@ -5678,6 +5726,21 @@ const Chat = {
                                     const amount = parseFloat(transferMatch[1]);
                                     const note = transferMatch[2] || '转账';
                                     await this.appendMsg('ai', '', 'transfer_in', { amount, note, status: 'pending' });
+                                } else if (emoticonMatch) {
+                                    let parts = msg.content.split(/(\{\{emoticon:.+?\}\})/);
+                                    for (let part of parts) {
+                                        if (!part.trim()) continue;
+                                        let eMatch = part.match(/^\{\{emoticon:(.+?)\}\}$/);
+                                        if (eMatch) {
+                                            let sName = eMatch[1];
+                                            let s = (DB.d.emoticons || []).find(x => x.name === sName);
+                                            if (s) {
+                                                await this.appendMsg('ai', s.url, 'image', {emoticonName: s.name});
+                                            }
+                                        } else {
+                                            await this.appendMsg('ai', part, 'text', { quote: msg.quote });
+                                        }
+                                    }
                                 } else {
                                     await this.appendMsg('ai', msg.content, 'text', { quote: msg.quote });
                                 }
@@ -6112,7 +6175,13 @@ const PlusMenu = {
         let desc = prompt("请描述画面内容：");
         if(desc) Chat.send(null, 'image', {content: desc});
     },
-    hImgLocal(inp) { Utils.b2d(inp.files[0], d => Chat.send(null, 'image', {content:d})); inp.value=''; },
+    hImgLocal(inp) {
+        if(!inp.files || inp.files.length === 0) return;
+        Array.from(inp.files).forEach(f => {
+            Utils.b2d(f, d => Chat.send(null, 'image', {content:d}));
+        });
+        inp.value='';
+    },
     showE() { 
         $('plus-menu-drawer').classList.remove('active');
         $('emoticon-panel').classList.add('active'); 
@@ -7028,11 +7097,9 @@ const Diary = {
             card.innerHTML = `
                 <div class="d-card-header" style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
                     <span class="d-date" style="font-weight:bold;font-size:18px;color:#333;font-family:'SF Pro Display'">${e.date} <span style="font-weight:normal;font-size:14px;color:#999;margin-left:5px">${e.weather||''}</span></span>
-                    <span class="d-tag ${isMe?'me':'ai'}" style="font-size:10px;padding:2px 8px;border-radius:10px;font-weight:bold;${isMe ? 'background:#fff0f0;color:#ff3b30' : 'background:#e3f2fd;color:#2196f3'}">${isMe ? '我' : 'TA'}</span>
                 </div>
                 <div class="d-card-content" style="font-size:14px;color:#555;line-height:1.6;margin-bottom:15px">${Utils.esc(preview)}</div>
-                <div class="d-card-footer" style="border-top:1px dashed #eee;padding-top:10px;display:flex;justify-content:space-between;color:#ccc;font-size:12px">
-                    <span>${commentCount} 条互动</span>
+                <div class="d-card-footer" style="border-top:1px dashed #eee;padding-top:10px;display:flex;justify-content:flex-end;color:#ccc;font-size:12px">
                     <span>查看详情 ›</span>
                 </div>
             `;
@@ -7087,30 +7154,58 @@ const Diary = {
         
         // Remove Header Image Logic
         let headerImg = $('diary-detail-header-img');
-        if(headerImg) headerImg.style.backgroundImage = 'none'; 
+        if(headerImg) headerImg.style.backgroundImage = 'none';
 
         // Update Weather Background
         this.updateWeatherBg(entry.weather || '晴', 'detail');
 
+        // Generate Title if missing
+        let title = entry.title;
+        if (!title) {
+            let tmp = document.createElement("DIV");
+            tmp.innerHTML = entry.content;
+            let plain = tmp.textContent || tmp.innerText || "";
+            title = plain.substring(0, 6);
+        }
+
         contentDiv.innerHTML = `
             <div class="d-detail-paper" style="background:rgba(255,255,255,0.8);backdrop-filter:blur(20px);border-radius:24px;padding:30px;margin:20px;box-shadow:0 10px 40px rgba(0,0,0,0.05)">
-                <div class="d-detail-date" style="font-size:24px;font-weight:800;margin-bottom:20px;border-bottom:1px solid #eee;padding-bottom:15px;display:flex;align-items:baseline">${entry.date} <span style="font-size:16px;margin-left:10px;color:#666">${entry.weather || ''}</span> <span style="font-weight:normal;opacity:0.4;margin-left:auto;font-size:12px">${Utils.timeStr(entry.time)}</span></div>
-                <div class="d-detail-body" style="font-size:16px;line-height:1.8;white-space:pre-wrap;color:#333">${Utils.esc(entry.content)}</div>
+                <div class="d-detail-date" style="font-size:20px;font-weight:800;margin-bottom:20px;border-bottom:1px solid #eee;padding-bottom:15px;display:flex;align-items:center;justify-content:space-between">
+                    <span>${title}</span>
+                    <span style="font-weight:normal;opacity:0.4;font-size:12px">${Utils.timeStr(entry.time)}</span>
+                </div>
+                <div class="d-detail-body" style="font-size:16px;line-height:1.8;white-space:pre-wrap;color:#333">${entry.content}</div>
                 <div class="d-detail-author" style="text-align:right;margin-top:30px;color:#999;font-size:12px;font-weight:600">
                     — ${isMe ? '我' : c.name}
                 </div>
             </div>
         `;
         
-        this.renderComments(entry);
+        // Fix: Bind click events for blackout text
+        contentDiv.querySelectorAll('.diary-blackout').forEach(el => {
+            el.onclick = function(e) {
+                e.stopPropagation();
+                this.classList.toggle('revealed');
+            };
+        });
+
         App.o('sub-diary-detail');
     },
 
-    updateWeatherBg(weather, type) { 
+    updateWeatherBg(weather, type) {
         let container = $(`diary-weather-bg-${type}`);
         if(!container) return;
-        container.innerHTML = ''; 
-        container.className = 'diary-weather-bg'; 
+        container.innerHTML = '';
+        container.className = 'diary-weather-bg';
+        container.style.backgroundImage = 'none';
+
+        // 优先使用自定义背景
+        if (DB.d.diaryCustomBg) {
+            container.style.backgroundImage = `url(${DB.d.diaryCustomBg})`;
+            container.style.backgroundSize = 'cover';
+            container.style.backgroundPosition = 'center';
+            return;
+        }
 
         let themeClass = 'w-sunny';
         if(weather.includes('雨')) themeClass = 'w-rainy';
@@ -7169,7 +7264,7 @@ const Diary = {
             div.innerHTML = `
                 <img src="${isUser ? (c.userAvatar||Utils.defAv) : (c.avatar||Utils.defAv)}" class="d-comment-av">
                 <div class="d-comment-box ${isUser?'me':'ai'}">
-                    <div class="d-comment-name">${isUser ? '我' : c.name}</div>
+                    <div class="d-comment-name">${isUser ? '我 (User)' : c.name}</div>
                     <div class="d-comment-text">${Utils.esc(cm.content)}</div>
                 </div>
             `;
@@ -7177,120 +7272,39 @@ const Diary = {
         });
     },
 
-    writeEntry() {
-        if(!this.folderId) return Toast.show("请先选择联系人");
-        $('diary-write-input').value = '';
-        let now = new Date();
-        let yyyy = now.getFullYear();
-        let mm = String(now.getMonth() + 1).padStart(2, '0');
-        let dd = String(now.getDate()).padStart(2, '0');
-        $('diary-date-input').value = `${yyyy}-${mm}-${dd}`;
-        $('diary-weather-input').value = '晴'; 
+    async genAiEntry(force = false, targetCid = null) {
+        let cid = targetCid || this.folderId;
+        if(!cid) return Toast.show("请先进入某人的日记本");
         
-        this.updateWeatherBg('晴', 'write');
-        App.o('sub-diary-write');
-    },
-
-    saveUserEntry() {
-        let content = $('diary-write-input').value.trim();
-        let date = $('diary-date-input').value;
-        let weather = $('diary-weather-input').value;
-        
-        if(!content) return;
-        if(!date) return Toast.show("请选择日期");
-        
-        let c = DB.getContact(this.folderId);
-        if(!c.diary) c.diary = [];
-        
-        let entry = {
-            id: Date.now(),
-            time: Date.now(),
-            date: date,
-            weather: weather,
-            type: 'user',
-            content: content,
-            comments: []
-        };
-        
-        c.diary.push(entry);
-        DB.save();
-        
-        $('sub-diary-write').classList.remove('active');
-        this.renderFolder(this.folderId);
-        Toast.show("日记已发布");
-        
-        setTimeout(() => this.triggerAiComment(entry), 3000);
-    },
-
-    showGenOptions() {
-        if(!this.folderId) return Toast.show("请先进入某人的日记本");
-        let div = document.createElement('div');
-        div.style.cssText = "position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);z-index:9999;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(5px)";
-        div.innerHTML = `
-            <div class="card-modern" style="width:80%;max-width:300px;padding:25px">
-                <div style="text-align:center;font-weight:800;font-size:18px;margin-bottom:15px">生成日记选项</div>
-                
-                <div style="margin-bottom:15px">
-                    <div class="label-modern">STYLE</div>
-                    <select id="gen-type" class="input-modern">
-                        <option value="daily">日常日记 (轻松/生活化)</option>
-                        <option value="unspoken">难以说出口的话 (文艺/隐痛)</option>
-                    </select>
-                </div>
-                
-                <div style="margin-bottom:20px">
-                    <div class="label-modern">PERSPECTIVE</div>
-                    <select id="gen-pers" class="input-modern">
-                        <option value="1st">第一人称 (我...)</option>
-                        <option value="3rd">第三人称 (TA...)</option>
-                    </select>
-                </div>
-
-                <div style="display:flex;gap:10px">
-                    <button class="btn-pill btn-white" onclick="this.closest('div').parentElement.parentElement.remove()" style="flex:1">取消</button>
-                    <button class="btn-pill btn-black" id="btn-do-gen" style="flex:1">生成</button>
-                </div>
-            </div>
-        `;
-        document.body.appendChild(div);
-        
-        div.querySelector('#btn-do-gen').onclick = () => {
-            let type = div.querySelector('#gen-type').value;
-            let pers = div.querySelector('#gen-pers').value;
-            div.remove();
-            this.genAiEntry(true, type, pers);
-        };
-    },
-
-    async genAiEntry(force = false, type = 'daily', perspective = '1st') {
-        if(!this.folderId) return Toast.show("请先进入某人的日记本");
-        
+        let isBackground = !!targetCid;
         let refreshBtn = $('btn-diary-refresh');
-        if(refreshBtn) {
+        if(refreshBtn && !isBackground) {
             let svg = refreshBtn.querySelector('svg');
             if(svg) svg.classList.add('rotating');
         }
 
-        let c = DB.getContact(this.folderId);
+        let c = DB.getContact(cid);
         
         let now = new Date();
         let yyyy = now.getFullYear();
         let mm = String(now.getMonth() + 1).padStart(2, '0');
         let dd = String(now.getDate()).padStart(2, '0');
-        let today = `${yyyy}-${mm}-${dd}`; 
+        let today = `${yyyy}-${mm}-${dd}`;
 
         let hasToday = c.diary && c.diary.some(e => e.type === 'ai' && e.date === today);
         if(hasToday && !force) {
-            if(refreshBtn) refreshBtn.querySelector('svg').classList.remove('rotating');
-            return Toast.show("TA 今天已经写过日记了哦");
+            if(refreshBtn && !isBackground) refreshBtn.querySelector('svg').classList.remove('rotating');
+            if(!isBackground) return Toast.show("TA 今天已经写过日记了哦");
+            return;
         }
         
-        Toast.show("TA 正在构思日记...");
+        if(!isBackground) Toast.show("TA 正在构思日记...");
         
         let p = DB.getPreset();
         if(!p || !p.key) {
-            if(refreshBtn) refreshBtn.querySelector('svg').classList.remove('rotating');
-            return Toast.show("API未配置");
+            if(refreshBtn && !isBackground) refreshBtn.querySelector('svg').classList.remove('rotating');
+            if(!isBackground) return Toast.show("API未配置");
+            return;
         }
         
         let summary = c.summary || '无';
@@ -7300,10 +7314,7 @@ const Diary = {
         let todayChat = (c.history || []).filter(m => new Date(m.time).toDateString() === new Date().toDateString()).map(m => `${m.role}: ${m.content}`).join('\n');
         if(!todayChat) todayChat = "No chat today";
 
-        let styleDesc = type === 'daily' ? "Casual, Relaxed, Daily Life (轻松、日常)" : "Literary, Hidden Pain, Deep Feelings (文艺、隐痛)";
-        let persDesc = perspective === '1st' ? "First Person ('I')" : `Third Person ('${c.name}' or He/She)`;
-        
-        let prompt = `Roleplay: You are ${c.name}. Write a diary entry about your day or feelings towards User.
+        let prompt = `Roleplay: You are ${c.name}. Write a diary entry about your day.
         Persona: ${c.charPersona}
         World: ${c.worldView || 'Modern'}
         
@@ -7313,13 +7324,26 @@ const Diary = {
         Summary of past chat: ${summary}
         
         Task: Write a diary entry based on today's interactions and schedule.
-        Requirements:
-        1. Style: ${styleDesc}.
-        2. Perspective: ${persDesc}.
-        3. Content: Only write thoughts/dialogue. Do NOT describe actions/movements in asterisks.
-        4. Length: Around 450 characters.
-        5. Format: JSON Object { "content": "entry text", "weather": "Sunny/Cloudy/Rainy/Snowy" }
-        Language: Simplified Chinese for content.`;
+        
+        【写作风格要求】
+        1. **极度口语化**：就像在私密日记本里随手写的一样，不要任何书面语，不要太正式。
+        2. **碎碎念与情绪**：多写点心里的嘀咕、吐槽、小情绪。可以有断句、感叹号、省略号。
+        3. **拒绝无意义描写**：不要写“今天天气不错”这种废话，除非它影响了你的心情。每一句话都要有你的“人味”。
+        4. **允许碎句子**：不必非要完整的句子结构，像平时说话那样自然。
+
+        【CRITICAL REQUIREMENTS】:
+        1. **Perspective**: STRICTLY First Person ("I", "我") for yourself. Use Third Person (He/She/Name) when mentioning others (including the User).
+        2. **Length**: MUST be longer than 500 Chinese characters. Be detailed and immersive.
+        3. **Focus**: Focus on YOUR own life, feelings, observations, and inner world. Do NOT revolve entirely around the User. Mention User only if relevant to today's interaction.
+        4. **Fun Elements**: You MUST use HTML tags for special effects to make it look like a real handwritten diary:
+           - Use \`<span class="diary-blackout">secret text</span>\` for secrets or shy thoughts (blacked out).
+           - Use \`<span class="diary-strike">wrong text</span>\` for crossed out thoughts.
+           - Use \`<span class="diary-ink"></span>\` for random ink blots (optional).
+           - Use \`<span class="diary-tear"></span>\` for tear stains (optional, if sad).
+           - Use \`<span class="diary-underline">important text</span>\` for emphasis.
+        5. **Format**: Return a JSON Object: { "title": "Short title (max 6 chars)", "content": "HTML string of the diary body", "weather": "Sunny/Cloudy/Rainy/Snowy" }
+        6. **Language**: Simplified Chinese.
+        `;
         
         try {
             let res = await fetch(`${p.url}/chat/completions`, {
@@ -7331,7 +7355,8 @@ const Diary = {
             let reply = d.choices[0].message.content;
             
             let content = reply;
-            let weather = "晴"; 
+            let weather = "晴";
+            let title = "今日日记";
             
             try {
                 let start = reply.indexOf('{');
@@ -7340,6 +7365,7 @@ const Diary = {
                     let json = JSON.parse(reply.substring(start, end+1));
                     content = json.content;
                     weather = json.weather || "晴";
+                    title = json.title || "今日日记";
                     const wMap = { "Sunny":"晴", "Cloudy":"多云", "Rainy":"雨", "Snowy":"雪" };
                     if(wMap[weather]) weather = wMap[weather];
                 }
@@ -7352,20 +7378,26 @@ const Diary = {
                 date: today,
                 weather: weather,
                 type: 'ai',
+                title: title,
                 content: content,
                 comments: []
             };
             c.diary.push(entry);
             DB.save();
             
-            this.renderFolder(this.folderId);
-            Toast.show("TA 写了一篇新日记");
+            if(!isBackground && this.folderId === cid) {
+                this.renderFolder(this.folderId);
+                Toast.show("TA 写了一篇新日记");
+            } else if(isBackground) {
+                // Optional: Notify user about new diary in background?
+                // Toast.show(`${c.name} 写了一篇新日记`);
+            }
             
         } catch(e) {
             console.error(e);
-            Toast.show("生成失败: " + e.message);
+            if(!isBackground) Toast.show("生成失败: " + e.message);
         } finally {
-            if(refreshBtn) {
+            if(refreshBtn && !isBackground) {
                 let svg = refreshBtn.querySelector('svg');
                 if(svg) svg.classList.remove('rotating');
             }
@@ -7476,6 +7508,15 @@ const Diary = {
         let c = $('diary-settings-list');
         c.innerHTML = `
             <div class="card-modern">
+                <div class="label-modern">CUSTOM BACKGROUND</div>
+                <div onclick="$('diary-bg-upload').click()" style="padding:10px 0;border-bottom:1px dashed #eee;cursor:pointer;display:flex;justify-content:space-between">
+                    <span>更换日记背景</span><span>></span>
+                </div>
+                <input type="file" id="diary-bg-upload" hidden accept="image/*" onchange="Diary.handleBgUpload(this)">
+                <div onclick="Diary.resetBg()" style="padding:10px 0;cursor:pointer;color:#999">恢复默认天气背景</div>
+            </div>
+
+            <div class="card-modern">
                 <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:15px">
                     <div class="label-modern" style="margin:0">AUTO GENERATION</div>
                     <span style="font-size:12px;color:#999">勾选以开启</span>
@@ -7507,6 +7548,30 @@ const Diary = {
         });
 
         App.o('sub-diary-settings');
+    },
+
+    handleBgUpload(inp) {
+        Utils.b2d(inp.files[0], d => {
+            DB.d.diaryCustomBg = d;
+            DB.save();
+            Toast.show('日记背景已更换');
+            // 如果当前在详情页，立即刷新
+            if($('sub-diary-detail').classList.contains('active')) {
+                let entry = DB.getContact(this.folderId).diary.find(e => e.id === this.currentEntryId);
+                if(entry) this.updateWeatherBg(entry.weather, 'detail');
+            }
+        });
+        inp.value = '';
+    },
+
+    resetBg() {
+        DB.d.diaryCustomBg = null;
+        DB.save();
+        Toast.show('已恢复默认天气背景');
+        if($('sub-diary-detail').classList.contains('active')) {
+            let entry = DB.getContact(this.folderId).diary.find(e => e.id === this.currentEntryId);
+            if(entry) this.updateWeatherBg(entry.weather, 'detail');
+        }
     },
 
     toggleAutoChar(id, checked) {
@@ -8814,6 +8879,61 @@ const Settings = {
     },
     e(id){ this.eid=id; let p=DB.d.presets.find(x=>x.id==id); $('pre-name').value=p.name; $('pre-url').value=p.url; $('pre-key').value=p.key; $('pre-model-select').innerHTML=`<option>${p.model}</option>`; $('pre-temp').value = p.temperature || 0.7; $('pre-temp-val').innerText = p.temperature || 0.7; App.o('sub-preset-edit'); },
     nP(){ this.eid=null; this.loadDrafts(); $('pre-temp').value = 0.7; $('pre-temp-val').innerText = 0.7; App.o('sub-preset-edit'); },
+    async testConnection() {
+        let btn = $('btn-test-conn');
+        let originalText = btn.innerHTML;
+        btn.innerHTML = '<div class="typing-indicator" style="height:10px"><div class="typing-dot" style="width:4px;height:4px;background:#333"></div><div class="typing-dot" style="width:4px;height:4px;background:#333"></div><div class="typing-dot" style="width:4px;height:4px;background:#333"></div></div>';
+        btn.disabled = true;
+        
+        let u = $('pre-url').value.trim();
+        let k = $('pre-key').value.trim();
+        
+        if (!u || !k) {
+            Toast.show('请先填写 URL 和 Key');
+            btn.innerHTML = originalText;
+            btn.disabled = false;
+            return;
+        }
+
+        try {
+            // Try fetching models list as a lightweight test
+            let controller = new AbortController();
+            let timeoutId = setTimeout(() => controller.abort(), 10000); // 10s timeout
+            
+            let res = await fetch(`${u}/models`, {
+                headers: {'Authorization': `Bearer ${k}`},
+                signal: controller.signal
+            });
+            clearTimeout(timeoutId);
+            
+            if (res.ok) {
+                btn.innerHTML = '<span style="color:green;font-weight:bold">✓ 连接成功</span>';
+                Toast.show('API 连接成功');
+                setTimeout(() => {
+                    btn.innerHTML = originalText;
+                    btn.disabled = false;
+                }, 2000);
+            } else {
+                let errText = `HTTP ${res.status}`;
+                try {
+                    let errData = await res.json();
+                    if (errData.error && errData.error.message) {
+                        errText += `: ${errData.error.message}`;
+                    }
+                } catch (e) {}
+                throw new Error(errText);
+            }
+        } catch (e) {
+            console.error(e);
+            let msg = e.name === 'AbortError' ? '请求超时' : (e.message || '网络错误');
+            btn.innerHTML = '<span style="color:red">✕ 连接失败</span>';
+            Toast.show(`连接失败: ${msg}`);
+            setTimeout(() => {
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            }, 3000);
+        }
+    },
     async fM(){ Toast.show('正在连接 API...'); try{ let u=$('pre-url').value, k=$('pre-key').value, r=await fetch(`${u}/models`,{headers:{'Authorization':`Bearer ${k}`}}), d=await r.json(), s=$('pre-model-select'); s.innerHTML=''; (d.data||d).forEach(m=>s.add(new Option(m.id,m.id))); Toast.show('列表已更新'); }catch(e){Toast.show('连接失败');} },
     async saveAndUse() {
         const name = $('pre-name').value.trim(); const url = $('pre-url').value.trim(); if (!name || !url) { Toast.show('名称和URL不能为空'); return; }
