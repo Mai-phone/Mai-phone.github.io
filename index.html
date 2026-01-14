@@ -66,6 +66,71 @@ body.theme-yellow {
 
 
 /* --- 01_base.css --- */
+/* Notification Banner (iOS Style) */
+#notification-banner {
+    position: fixed;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%) translateY(-200%);
+    width: 92%;
+    max-width: 380px;
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(25px) saturate(180%);
+    -webkit-backdrop-filter: blur(25px) saturate(180%);
+    border-radius: 22px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.15), 0 0 0 1px rgba(255,255,255,0.4);
+    padding: 14px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    z-index: 20000;
+    transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+    cursor: pointer;
+    pointer-events: auto;
+}
+#notification-banner.show {
+    transform: translateX(-50%) translateY(0);
+}
+.notif-avatar {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    object-fit: cover;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+.notif-content {
+    flex: 1;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.notif-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2px;
+}
+.notif-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: #000;
+    letter-spacing: -0.3px;
+}
+.notif-time {
+    font-size: 12px;
+    color: #8e8e93;
+    font-weight: 400;
+}
+.notif-text {
+    font-size: 14px;
+    color: #333;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 1.3;
+}
+
 /* --- 修复安卓键盘顶起时幽灵页面弹出 BUG (全局版) --- */
 .app-window:not(.active), .post-detail-view:not(.active), #xhs-profile-edit:not(.active) {
     display: none !important;
@@ -2039,6 +2104,302 @@ body.theme-mint .chat-input { background: rgba(232, 239, 234, 0.6); }
 .mt-list-item.active { background: rgba(255,255,255,0.15); }
 .mt-list-item.active .mt-list-title { color: var(--accent); }
 
+/* --- Profile Redesign --- */
+.profile-cover {
+    width: 100%;
+    height: 240px;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    background-color: #eee;
+}
+.profile-cover::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 80px;
+    background: linear-gradient(to top, rgba(248,249,250,1), transparent);
+}
+.profile-header-container {
+    position: relative;
+    padding: 0 25px;
+    margin-top: -50px; /* Avatar overlap */
+    margin-bottom: 10px;
+    z-index: 10;
+}
+.profile-avatar-wrapper {
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    border: 4px solid #F8F9FA;
+    overflow: hidden;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    background: #fff;
+    position: relative;
+    z-index: 2;
+    margin-bottom: 15px;
+}
+.profile-avatar-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.profile-info-block {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+.profile-name-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.profile-name {
+    font-size: 26px;
+    font-weight: 800;
+    color: #1a1a1a;
+    letter-spacing: -0.5px;
+}
+.profile-gender-icon {
+    font-size: 12px;
+    padding: 2px 6px;
+    border-radius: 10px;
+    font-weight: bold;
+}
+.gender-male { background: #e3f2fd; color: #2196f3; }
+.gender-female { background: #fce4ec; color: #e91e63; }
+
+.profile-meta-row {
+    font-size: 13px;
+    color: #888;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 5px;
+    font-family: 'SF Pro Display', sans-serif;
+}
+.profile-bio {
+    font-size: 15px;
+    color: #555;
+    line-height: 1.6;
+    margin-top: 12px;
+    margin-bottom: 20px;
+}
+.profile-tags-area {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 25px;
+}
+.profile-tag {
+    background: #fff;
+    color: #555;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 13px;
+    border: 1px solid rgba(0,0,0,0.05);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.02);
+}
+.profile-tag.add-btn {
+    border: 1px dashed #ccc;
+    background: transparent;
+    cursor: pointer;
+    color: #999;
+    box-shadow: none;
+}
+.profile-actions-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    padding: 0 25px;
+    padding-bottom: 40px;
+}
+.action-card {
+    background: #fff;
+    border-radius: 20px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+    cursor: pointer;
+    transition: transform 0.2s;
+    border: 1px solid rgba(0,0,0,0.02);
+}
+.action-card:active { transform: scale(0.98); }
+.action-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    color: #fff;
+    margin-bottom: 5px;
+}
+.action-label {
+    font-size: 16px;
+    font-weight: 700;
+    color: #333;
+}
+.action-sub {
+    font-size: 12px;
+    color: #999;
+    font-family: 'SF Pro Display';
+}
+
+/* --- Profile Redesign --- */
+.profile-cover {
+    width: 100%;
+    height: 240px;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    background-color: #eee;
+}
+.profile-cover::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 80px;
+    background: linear-gradient(to top, rgba(248,249,250,1), transparent);
+}
+.profile-header-container {
+    position: relative;
+    padding: 0 25px;
+    margin-top: -50px; /* Avatar overlap */
+    margin-bottom: 10px;
+    z-index: 10;
+}
+.profile-avatar-wrapper {
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    border: 4px solid #F8F9FA;
+    overflow: hidden;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    background: #fff;
+    position: relative;
+    z-index: 2;
+    margin-bottom: 15px;
+}
+.profile-avatar-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.profile-info-block {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+.profile-name-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.profile-name {
+    font-size: 26px;
+    font-weight: 800;
+    color: #1a1a1a;
+    letter-spacing: -0.5px;
+}
+.profile-gender-icon {
+    font-size: 12px;
+    padding: 2px 6px;
+    border-radius: 10px;
+    font-weight: bold;
+}
+.gender-male { background: #e3f2fd; color: #2196f3; }
+.gender-female { background: #fce4ec; color: #e91e63; }
+
+.profile-meta-row {
+    font-size: 13px;
+    color: #888;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 5px;
+    font-family: 'SF Pro Display', sans-serif;
+}
+.profile-bio {
+    font-size: 15px;
+    color: #555;
+    line-height: 1.6;
+    margin-top: 12px;
+    margin-bottom: 20px;
+}
+.profile-tags-area {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 25px;
+}
+.profile-tag {
+    background: #fff;
+    color: #555;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 13px;
+    border: 1px solid rgba(0,0,0,0.05);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.02);
+}
+.profile-tag.add-btn {
+    border: 1px dashed #ccc;
+    background: transparent;
+    cursor: pointer;
+    color: #999;
+    box-shadow: none;
+}
+.profile-actions-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    padding: 0 25px;
+    padding-bottom: 40px;
+}
+.action-card {
+    background: #fff;
+    border-radius: 20px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+    cursor: pointer;
+    transition: transform 0.2s;
+    border: 1px solid rgba(0,0,0,0.02);
+}
+.action-card:active { transform: scale(0.98); }
+.action-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    color: #fff;
+    margin-bottom: 5px;
+}
+.action-label {
+    font-size: 16px;
+    font-weight: 700;
+    color: #333;
+}
+.action-sub {
+    font-size: 12px;
+    color: #999;
+    font-family: 'SF Pro Display';
+}
+
 </style>
 <style id="global-font-style"></style>
 <!-- CSS_PLACEHOLDER -->
@@ -2057,6 +2418,18 @@ body.theme-mint .chat-input { background: rgba(232, 239, 234, 0.6); }
 <div id="ctx-overlay" class="ctx-overlay" onclick="ContextMenu.hide()"><div id="ctx-menu" class="ctx-menu"><div class="ctx-item" onclick="ContextMenu.edit()">编辑</div><div class="ctx-item" onclick="ContextMenu.quote()">引用</div><div class="ctx-item" onclick="ContextMenu.multiSelect()">多选</div><div class="ctx-item" onclick="ContextMenu.recall()">撤回 (AI可见)</div><div class="ctx-item danger" onclick="ContextMenu.del()">删除 (无痕)</div></div></div>
 
 <div id="global-toast"></div>
+
+<!-- Notification Banner -->
+<div id="notification-banner">
+    <img id="notif-av" src="" class="notif-avatar">
+    <div class="notif-content">
+        <div class="notif-header">
+            <span id="notif-title" class="notif-title">Title</span>
+            <span id="notif-time" class="notif-time">现在</span>
+        </div>
+        <div id="notif-text" class="notif-text">Message content...</div>
+    </div>
+</div>
 
 <!-- Crop Modal -->
 <div id="crop-modal">
@@ -2390,8 +2763,16 @@ body.theme-mint .chat-input { background: rgba(232, 239, 234, 0.6); }
 
 <!-- --- 05_app_line.html --- -->
 <div id="app-line" class="app-window ui-modern" style="padding-top:0">
+        <div id="me-drawer-overlay" style="position:absolute;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.3);z-index:190;display:none;opacity:0;transition:opacity 0.3s" onclick="LineApp.closeMe()"></div>
+                <div id="tab-me" style="position:absolute;top:0;left:0;width:85%;height:100%;background:#F8F9FA;z-index:200;transform:translateX(-100%);transition:transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);box-shadow:5px 0 20px rgba(0,0,0,0.1);display:none;flex-direction:column">
+                     <div class="nav-bar" style="background:transparent;border:none;height:0;min-height:0;padding:0"></div>
+                     <div class="scroll-content" style="padding-top:20px" id="owner-profile-container">
+                <!-- Owner Card Injected via JS -->
+             </div>
+        </div>
+
         <div class="line-tabs">
-            <div id="tab-contacts" class="tab-content" style="background:#F8F9FA">
+            <div id="tab-contacts" class="tab-content active" style="background:#F8F9FA">
                 <div class="nav-bar" style="background:white;border-bottom:1px solid rgba(0,0,0,0.05);box-shadow:0 2px 10px rgba(0,0,0,0.02)">
                     <button class="nav-btn" onclick="App.h()" style="color:#1a1a1a">返回</button>
                     <div class="nav-title" style="color:#1a1a1a">联系人</div>
@@ -2402,7 +2783,7 @@ body.theme-mint .chat-input { background: rgba(232, 239, 234, 0.6); }
                 </div>
                 <div class="scroll-content" id="contacts-list" style="padding:20px;padding-top:10px"></div>
             </div>
-            <div id="tab-chats" class="tab-content active" style="background:#F8F9FA">
+            <div id="tab-chats" class="tab-content" style="background:#F8F9FA">
                 <div class="nav-bar" style="background:white;border-bottom:1px solid rgba(0,0,0,0.05);box-shadow:0 2px 10px rgba(0,0,0,0.02)">
                     <button class="nav-btn" onclick="App.h()" style="color:#1a1a1a">返回</button>
                     <div class="nav-title" style="color:#1a1a1a">聊天</div>
@@ -2412,7 +2793,7 @@ body.theme-mint .chat-input { background: rgba(232, 239, 234, 0.6); }
             </div>
             <div id="tab-moments" class="tab-content" style="background:#F8F9FA">
                 <div class="nav-bar" style="background:rgba(255,255,255,0.85);backdrop-filter:blur(20px);border-bottom:1px solid rgba(0,0,0,0.05)">
-                    <button class="nav-btn" onclick="LineApp.sw(1)" style="color:#1a1a1a">返回</button>
+                    <button class="nav-btn" onclick="LineApp.sw(2)" style="color:#1a1a1a">返回</button>
                     <div class="nav-title" style="color:#1a1a1a">动态</div>
                     <button class="nav-btn" onclick="Moments.openAdd()" style="font-size:28px;color:#1a1a1a">+</button>
                 </div>
@@ -2432,19 +2813,13 @@ body.theme-mint .chat-input { background: rgba(232, 239, 234, 0.6); }
                 </div>
                 <div class="scroll-content" id="diary-list-container" style="padding:20px;padding-top:10px"></div>
             </div>
-            <div id="tab-me" class="tab-content" style="background:#F8F9FA">
-                 <div class="nav-bar" style="background:transparent;border:none"><div class="nav-title" style="position:static;transform:none;width:100%;text-align:left;padding-left:20px;font-size:26px;font-weight:800;color:#1a1a1a">机主资料</div></div>
-                 <div class="scroll-content" style="padding-top:20px" id="owner-profile-container">
-                    <!-- Owner Card Injected via JS -->
-                 </div>
-            </div>
         </div>
         <div class="bottom-nav" style="background:white;border-top:1px solid rgba(0,0,0,0.05);margin:0;width:100%;border-radius:0;box-shadow:0 -5px 20px rgba(0,0,0,0.02);bottom:0;left:0">
-            <div class="nav-tab" onclick="LineApp.sw(0,this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>联系人</div>
-            <div class="nav-tab active" onclick="LineApp.sw(1,this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>聊天</div>
-            <div class="nav-tab" onclick="LineApp.sw(2,this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"></circle><polygon points="10 8 16 12 10 16 10 8"></polygon></svg>动态</div>
-            <div class="nav-tab" onclick="LineApp.sw(3,this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>想念</div>
-            <div class="nav-tab" onclick="LineApp.sw(4,this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>我</div>
+            <div class="nav-tab" onclick="LineApp.sw(0,this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>我</div>
+            <div class="nav-tab active" onclick="LineApp.sw(1,this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>联系人</div>
+            <div class="nav-tab" onclick="LineApp.sw(2,this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>聊天</div>
+            <div class="nav-tab" onclick="LineApp.sw(3,this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"></circle><polygon points="10 8 16 12 10 16 10 8"></polygon></svg>动态</div>
+            <div class="nav-tab" onclick="LineApp.sw(4,this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>想念</div>
         </div>
     </div>
 
@@ -3373,6 +3748,34 @@ const Toast = {
     }
 };
 
+const Notification = {
+    timer: null,
+    show(contact, text) {
+        let banner = $('notification-banner');
+        if(!banner) return;
+        
+        $('notif-av').src = contact.avatar || Utils.defAv;
+        $('notif-title').innerText = contact.name;
+        $('notif-text').innerText = text;
+        $('notif-time').innerText = '现在';
+        
+        banner.classList.add('show');
+        banner.onclick = () => {
+            Chat.open(contact.id);
+            this.hide();
+        };
+        
+        if(this.timer) clearTimeout(this.timer);
+        this.timer = setTimeout(() => {
+            this.hide();
+        }, 5000);
+    },
+    hide() {
+        let banner = $('notification-banner');
+        if(banner) banner.classList.remove('show');
+    }
+};
+
 const Utils = {
     b2d(f, cb) {
         if (!f) return;
@@ -3475,11 +3878,13 @@ const SYS_GUARDRAILS = `
 ## Chat Style & Behavioral Norms
 1. **Mandatory Segmented Reply (拟人化分段回复)**:
    - **Long paragraphs are STRICTLY FORBIDDEN**.
-   - **Constraint**: You MUST split your response into 2-6 separate short bubbles (multiple <msg> tags).
+   - **Constraint**: You MUST split your response into 6-9 separate short bubbles (multiple <msg> tags).
    - **One Bubble = One <msg> tag**.
    
-2. **Language Style**:
-   - Speak naturally. Use standard punctuation (commas, periods, etc.) as needed.
+2. **Language Style & Behavior**:
+   - Speak naturally. Use standard punctuation.
+   - **NEVER urge the user to sleep**, regardless of the time (late night/early morning).
+   - **Proactively find topics** based on your persona. Do not just passively answer; lead the conversation.
 
 3. **No Action Descriptions**: This is a chat app. **Do NOT** write *laughs* or (sighs). Output ONLY what is typed.
 
@@ -4107,6 +4512,9 @@ const Crop = {
         } else if (this.mode === 'banner') {
              DB.d.bannerImg = res;
              if($('top-banner-img')) $('top-banner-img').src = res;
+        } else if (this.mode === 'owner-cover') {
+             if(!DB.d.ownerProfile) DB.d.ownerProfile = {};
+             DB.d.ownerProfile.coverImg = res;
         }
 
         DB.save();
@@ -4257,11 +4665,10 @@ class GroupManager {
         return `${m.name}: ${m.content}`;
     }).join('\n');
 
-    // 获取世界书内容
-    let worldContent = '';
-    if (group.worldIds && group.worldIds.length > 0) {
-        worldContent = DB.d.world.filter(w => group.worldIds.includes(w.id)).map(w => w.content).join('\n');
-    }
+    // 获取世界书内容 (强制全局优先)
+    let globalWorlds = DB.d.world.filter(w => w.isGlobal);
+    let linkedWorlds = DB.d.world.filter(w => !w.isGlobal && (group.worldIds && group.worldIds.includes(w.id)));
+    let worldContent = [...globalWorlds, ...linkedWorlds].map(w => w.content).join('\n');
     if (group.worldView) worldContent += '\n' + group.worldView;
 
     const userPersona = group.userPersona || '普通群友';
@@ -4574,6 +4981,10 @@ const Contacts = {
             return;
         }
 
+        // Filter out global entries for selection
+        let optionalWorlds = DB.d.world.filter(w => !w.isGlobal);
+        let globalCount = DB.d.world.length - optionalWorlds.length;
+
         let count = selectedIds.length;
         let header = document.createElement('div');
         header.className = 'list-item';
@@ -4591,22 +5002,40 @@ const Contacts = {
             header.querySelector('span:last-child').innerText = isHidden ? '▲' : '▼';
         };
 
-        DB.d.world.forEach(w => {
-            let isChecked = selectedIds.includes(w.id) ? 'checked' : '';
-            let item = document.createElement('div');
-            item.className = 'list-item';
-            item.style.borderBottom = 'none';
-            item.style.padding = '8px 15px';
-            item.innerHTML = `
-                <span style="font-size:14px">${w.key}</span>
-                <input type="checkbox" class="world-select-checkbox" value="${w.id}" ${isChecked} style="width:auto">
-            `;
-            item.querySelector('input').onchange = () => {
-                let c = listDiv.querySelectorAll('input:checked').length;
-                if($('contact-world-count')) $('contact-world-count').innerText = `(${c})`;
-            };
-            listDiv.appendChild(item);
-        });
+        if (globalCount > 0) {
+            let globalHint = document.createElement('div');
+            globalHint.style.padding = '8px 15px';
+            globalHint.style.fontSize = '12px';
+            globalHint.style.color = '#999';
+            globalHint.innerText = `* ${globalCount} 个全局词条将自动生效`;
+            listDiv.appendChild(globalHint);
+        }
+
+        if (optionalWorlds.length === 0) {
+            let emptyHint = document.createElement('div');
+            emptyHint.style.padding = '8px 15px';
+            emptyHint.style.fontSize = '12px';
+            emptyHint.style.color = '#ccc';
+            emptyHint.innerText = '没有可选的非全局词条';
+            listDiv.appendChild(emptyHint);
+        } else {
+            optionalWorlds.forEach(w => {
+                let isChecked = selectedIds.includes(w.id) ? 'checked' : '';
+                let item = document.createElement('div');
+                item.className = 'list-item';
+                item.style.borderBottom = 'none';
+                item.style.padding = '8px 15px';
+                item.innerHTML = `
+                    <span style="font-size:14px">${w.key}</span>
+                    <input type="checkbox" class="world-select-checkbox" value="${w.id}" ${isChecked} style="width:auto">
+                `;
+                item.querySelector('input').onchange = () => {
+                    let c = listDiv.querySelectorAll('input:checked').length;
+                    if($('contact-world-count')) $('contact-world-count').innerText = `(${c})`;
+                };
+                listDiv.appendChild(item);
+            });
+        }
 
         container.appendChild(header);
         container.appendChild(listDiv);
@@ -4709,6 +5138,10 @@ const Groups = {
             return;
         }
 
+        // Filter out global entries for selection
+        let optionalWorlds = DB.d.world.filter(w => !w.isGlobal);
+        let globalCount = DB.d.world.length - optionalWorlds.length;
+
         let count = selectedIds.length;
         let header = document.createElement('div');
         header.className = 'list-item';
@@ -4726,22 +5159,40 @@ const Groups = {
             header.querySelector('span:last-child').innerText = isHidden ? '▲' : '▼';
         };
 
-        DB.d.world.forEach(w => {
-            let isChecked = selectedIds.includes(w.id) ? 'checked' : '';
-            let item = document.createElement('div');
-            item.className = 'list-item';
-            item.style.borderBottom = 'none';
-            item.style.padding = '8px 15px';
-            item.innerHTML = `
-                <span style="font-size:14px">${w.key}</span>
-                <input type="checkbox" class="group-world-checkbox" value="${w.id}" ${isChecked} style="width:auto">
-            `;
-            item.querySelector('input').onchange = () => {
-                let c = listDiv.querySelectorAll('input:checked').length;
-                if($('group-world-count')) $('group-world-count').innerText = `(${c})`;
-            };
-            listDiv.appendChild(item);
-        });
+        if (globalCount > 0) {
+            let globalHint = document.createElement('div');
+            globalHint.style.padding = '8px 15px';
+            globalHint.style.fontSize = '12px';
+            globalHint.style.color = '#999';
+            globalHint.innerText = `* ${globalCount} 个全局词条将自动生效`;
+            listDiv.appendChild(globalHint);
+        }
+
+        if (optionalWorlds.length === 0) {
+            let emptyHint = document.createElement('div');
+            emptyHint.style.padding = '8px 15px';
+            emptyHint.style.fontSize = '12px';
+            emptyHint.style.color = '#ccc';
+            emptyHint.innerText = '没有可选的非全局词条';
+            listDiv.appendChild(emptyHint);
+        } else {
+            optionalWorlds.forEach(w => {
+                let isChecked = selectedIds.includes(w.id) ? 'checked' : '';
+                let item = document.createElement('div');
+                item.className = 'list-item';
+                item.style.borderBottom = 'none';
+                item.style.padding = '8px 15px';
+                item.innerHTML = `
+                    <span style="font-size:14px">${w.key}</span>
+                    <input type="checkbox" class="group-world-checkbox" value="${w.id}" ${isChecked} style="width:auto">
+                `;
+                item.querySelector('input').onchange = () => {
+                    let c = listDiv.querySelectorAll('input:checked').length;
+                    if($('group-world-count')) $('group-world-count').innerText = `(${c})`;
+                };
+                listDiv.appendChild(item);
+            });
+        }
 
         container.appendChild(header);
         container.appendChild(listDiv);
@@ -5359,6 +5810,17 @@ const Chat = {
         Task: User used your 'Affinity Pay' (spent your money). You just got a notification.
         Reply to the user immediately about this transaction.
         
+        [FORCE ONLINE MODE]: Do NOT describe actions or use narrator style. Only spoken words. Even if narrator mode was previously active, disable it for this specific reply.
+        
+        [LENGTH & STYLE]: Reply in 6-9 short sentences. Keep sentences concise and punchy. Avoid long, complex sentences.
+        
+        [REACTION GUIDELINE]:
+        - Do NOT default to being angry or jealous.
+        - React strictly based on your Persona, your relationship with the User, and the specific context (who the money was sent to).
+        - If User sent money to YOU (using your own money), react logically (e.g., confused, amused, or teasing).
+        - If User sent money to others, react based on your personality (generous? possessive? indifferent?).
+        - Be natural and immersive.
+
         CRITICAL: At the very end of your response, you MUST append your current status in this XML format:
         <status>
           <loc>Location</loc>
@@ -5405,8 +5867,10 @@ const Chat = {
                     c.history.push({role: 'assistant', content: part.trim(), time: Date.now(), isRead: false});
                 }
                 await DB.save();
-                Toast.show(`收到 ${c.name} 的消息`);
-                Contacts.render(); 
+                // Toast.show(`收到 ${c.name} 的消息`);
+                Notification.show(c, parts.join(' '));
+                Contacts.render();
+                if (Chat.cid === cid) Chat.renderMessages();
             }
         } catch(e) {
             console.error("Background AI Error", e);
@@ -5470,7 +5934,9 @@ const Chat = {
             Example: To accept 2 transfers, output "[TX_ACC] [TX_ACC]".]`;
         }
 
-        let wTxt = DB.d.world.filter(w => w.isGlobal || (c.worldIds||[]).includes(w.id)).map(w => w.content).join('\n');
+        let globalWorlds = DB.d.world.filter(w => w.isGlobal);
+        let linkedWorlds = DB.d.world.filter(w => !w.isGlobal && (c.worldIds||[]).includes(w.id));
+        let wTxt = [...globalWorlds, ...linkedWorlds].map(w => w.content).join('\n');
         let statusCtx = c.hasUserCheckedStatus ? `[System: User刚刚查看了你的位置和状态]` : ''; if(c.hasUserCheckedStatus) c.hasUserCheckedStatus = false;
         let timeAware = $('set-ai-time-aware').checked ? `Current Time: ${new Date().toLocaleString()}` : '';
         let weatherInfo = `[Current Weather: ${Weather.current || 'Unknown'}]`;
@@ -6125,9 +6591,10 @@ const Transfer = {
         Chat.send(null, 'transfer', {amount: amt, note: note, status: 'pending'});
         
         // Trigger Background Reaction
-        if (this.selectedSource !== 'wallet' && this.selectedSource != Chat.cid) {
+        if (this.selectedSource !== 'wallet') {
             let targetC = DB.getContact(Chat.cid);
             let targetName = targetC ? targetC.name : 'someone';
+            // If sending to self (using char's money to pay char), context might need adjustment, but generic is fine.
             let context = `[系统通知] 用户使用了您的亲密付向 ${targetName} 转账了 ¥${amt}。备注: ${note}`;
             Chat.triggerBackgroundAI(this.selectedSource, context);
         }
@@ -7596,80 +8063,206 @@ const OwnerProfile = {
         let c = $('owner-profile-container');
         if(!c) return;
         
-        let bDay = p.birthday || '';
-        if(bDay.length === 5 && bDay.indexOf('-') === 2) bDay = '2000-' + bDay;
+        // Ensure tags array exists
+        if(!p.tags) p.tags = ['旅行', '摄影', '美食'];
 
-        let ageOpts = '';
-        for(let i=0; i<=100; i++) ageOpts += `<option value="${i}" ${p.age==i?'selected':''}>${i}岁</option>`;
-        
-        const zodiacs = ['白羊座','金牛座','双子座','巨蟹座','狮子座','处女座','天秤座','天蝎座','射手座','摩羯座','水瓶座','双鱼座'];
-        let zodiacOpts = zodiacs.map(z => `<option value="${z}" ${p.zodiac==z?'selected':''}>${z}</option>`).join('');
+        let coverImg = p.coverImg || 'https://source.unsplash.com/random/800x400?nature';
+        let avatar = DB.d.ownerAvatar || Utils.defAv;
+        let name = p.name || '机主';
+        let gender = p.gender || '保密';
+        let genderClass = gender === '男' ? 'gender-male' : (gender === '女' ? 'gender-female' : '');
+        let genderIcon = gender === '男' ? '♂' : (gender === '女' ? '♀' : '');
+        let lineId = p.lineId || 'line_id_12345';
+        let zodiac = p.zodiac || '摩羯座';
+        let bio = p.bio || '这个人很懒，什么都没写。';
 
-        let contactOpts = '<option value="">未绑定</option>' + DB.d.contacts.filter(ct => !ct.isGroup).map(ct => `<option value="${ct.id}" ${p.relativeCardId == ct.id ? 'selected' : ''}>${ct.name}</option>`).join('');
+        // Tags HTML
+        let tagsHtml = p.tags.map((t, i) => `<div class="profile-tag" onclick="OwnerProfile.removeTag(${i})">${t} ✕</div>`).join('');
+        tagsHtml += `<div class="profile-tag add-btn" onclick="OwnerProfile.addTag()">+ 标签</div>`;
+
+        // Relative Card Logic
         let boundContact = DB.getContact(p.relativeCardId);
-        let relativeCardInfo = boundContact ? `
-            <div style="margin-top:10px;padding:15px;background:#f0f8ff;border-radius:12px;color:var(--text-main);display:flex;flex-direction:column;gap:5px;border:1px solid #e1f5fe">
-                <div style="display:flex;justify-content:space-between;align-items:center">
-                    <div style="font-size:12px;opacity:0.7">亲属卡余额 (由${boundContact.name}提供)</div>
-                    <button class="btn-pill btn-white" style="padding:4px 12px;font-size:10px;height:24px" onclick="OwnerProfile.editRelWallet()">修改</button>
-                </div>
-                <div style="font-size:24px;font-weight:bold;font-family:'SF Pro Display'">¥${DB.d.walletBalance}</div>
-            </div>` : '<div style="font-size:12px;color:#ccc;margin-top:5px">未绑定亲属卡</div>';
-        
+        let relativeCardText = boundContact ? `亲密付 (${boundContact.name})` : '亲密付 (未绑定)';
+        let relativeBalance = boundContact ? `¥${DB.d.walletBalance}` : '去绑定';
+
         c.innerHTML = `
-        <div class="card-modern" style="align-items:center;padding:30px 20px">
-            <div style="position:relative;cursor:pointer" onclick="Crop.open('owner-av')">
-                <img id="owner-av-img" src="${DB.d.ownerAvatar || Utils.defAv}" style="width:100px;height:100px;border-radius:50%;object-fit:cover;box-shadow:0 10px 20px rgba(0,0,0,0.1);border:4px solid white">
-                <div style="position:absolute;bottom:0;right:0;background:var(--accent);color:white;width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;border:2px solid white">📷</div>
+            <div class="profile-cover" style="background-image: url('${coverImg}')" onclick="Crop.open('owner-cover')">
             </div>
-            <input class="input-modern" value="${p.name||''}" placeholder="设置名字" onchange="OwnerProfile.u('name',this.value)" style="text-align:center;font-size:24px;font-weight:800;margin-top:15px;background:transparent;box-shadow:none">
-            <div style="font-size:12px;color:#ccc">点击头像或名字编辑</div>
-        </div>
-
-        <div class="card-modern">
-             <div style="display:grid;grid-template-columns:1fr 1fr;gap:15px">
-                 <div>
-                     <div class="label-modern">GENDER</div>
-                     <select class="input-modern" onchange="OwnerProfile.u('gender',this.value)">
-                        <option value="保密" ${p.gender=='保密'?'selected':''}>保密</option>
-                        <option value="男" ${p.gender=='男'?'selected':''}>男</option>
-                        <option value="女" ${p.gender=='女'?'selected':''}>女</option>
-                     </select>
-                 </div>
-                 <div>
-                     <div class="label-modern">AGE</div>
-                     <select class="input-modern" onchange="OwnerProfile.u('age',this.value)">${ageOpts}</select>
-                 </div>
-                 <div>
-                     <div class="label-modern">BIRTHDAY</div>
-                     <input type="date" class="input-modern" value="${bDay}" onchange="OwnerProfile.u('birthday',this.value)" style="font-family:inherit">
-                 </div>
-                 <div>
-                     <div class="label-modern">ZODIAC</div>
-                     <select class="input-modern" onchange="OwnerProfile.u('zodiac',this.value)">${zodiacOpts}</select>
-                 </div>
-             </div>
-             <div style="margin-top:10px">
-                 <div class="label-modern">BIO</div>
-                 <textarea class="input-modern" placeholder="写点什么..." onchange="OwnerProfile.u('bio',this.value)" style="height:100px;resize:none">${p.bio||''}</textarea>
-             </div>
-        </div>
-
-        <div class="card-modern">
-            <div class="label-modern">FAMILY CARD</div>
-            <select class="input-modern" onchange="OwnerProfile.u('relativeCardId', this.value); OwnerProfile.render();">${contactOpts}</select>
-            ${relativeCardInfo}
-        </div>
-
-        <div class="card-modern" style="background:#fff8e1;border:none">
-            <div style="display:flex;justify-content:space-between;align-items:center">
-                <div class="label-modern" style="color:#8d6e63;margin:0">MY WALLET (PRIVATE)</div>
-                <button class="btn-pill btn-white" style="padding:4px 12px;font-size:10px;height:24px;color:#8d6e63" onclick="OwnerProfile.editWallet()">修改余额</button>
+            
+            <div class="profile-header-container">
+                <div class="profile-avatar-wrapper" onclick="Crop.open('owner-av')">
+                    <img src="${avatar}">
+                </div>
+                
+                <div class="profile-info-block">
+                    <div class="profile-name-row">
+                        <div class="profile-name" onclick="OwnerProfile.editName()">${name}</div>
+                        ${gender !== '保密' ? `<div class="profile-gender-icon ${genderClass}">${genderIcon}</div>` : ''}
+                    </div>
+                    <div class="profile-meta-row">
+                        <span onclick="OwnerProfile.editLineId()">ID: ${lineId}</span>
+                        <span>|</span>
+                        <span onclick="OwnerProfile.editZodiac()">${zodiac}</span>
+                        <span>|</span>
+                        <span onclick="OwnerProfile.editGender()">${gender}</span>
+                    </div>
+                    <div class="profile-bio" onclick="OwnerProfile.editBio()">${bio}</div>
+                    
+                    <div class="profile-tags-area">
+                        ${tagsHtml}
+                    </div>
+                </div>
             </div>
-            <div style="font-size:36px;font-weight:800;margin-top:10px;font-family:'SF Pro Display';color:#5d4037">¥${DB.d.myWallet}</div>
-            <div style="font-size:12px;color:#8d6e63;opacity:0.8">Char 转账将自动存入此账户</div>
-        </div>
+
+            <div class="profile-actions-grid">
+                <div class="action-card" onclick="OwnerProfile.openRelativeSettings()">
+                    <div class="action-icon" style="background:transparent;color:#1a1a1a;border:1px solid rgba(0,0,0,0.1)">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="width:24px;height:24px"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
+                    </div>
+                    <div>
+                        <div class="action-label">亲密付</div>
+                        <div class="action-sub">${relativeBalance}</div>
+                    </div>
+                </div>
+                <div class="action-card" onclick="OwnerProfile.editWallet()">
+                    <div class="action-icon" style="background:transparent;color:#1a1a1a;border:1px solid rgba(0,0,0,0.1)">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="width:24px;height:24px"><path d="M20 12V8H6a2 2 0 0 1-2-2c0-1.1.9-2 2-2h12v4"></path><path d="M4 6v12c0 1.1.9 2 2 2h14v-4"></path><path d="M18 12a2 2 0 0 0-2 2c0 1.1.9 2 2 2h4v-4h-4z"></path></svg>
+                    </div>
+                    <div>
+                        <div class="action-label">小金库</div>
+                        <div class="action-sub">¥${DB.d.myWallet}</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div style="height:40px"></div>
         `;
+    },
+    u(k, v) {
+        if(!DB.d.ownerProfile) DB.d.ownerProfile = {};
+        DB.d.ownerProfile[k] = v;
+        DB.save();
+        this.render();
+    },
+    editName() {
+        let v = prompt("修改昵称:", DB.d.ownerProfile.name);
+        if(v) this.u('name', v);
+    },
+    editLineId() {
+        let v = prompt("修改 ID:", DB.d.ownerProfile.lineId);
+        if(v) this.u('lineId', v);
+    },
+    editZodiac() {
+        const zodiacs = ['白羊座','金牛座','双子座','巨蟹座','狮子座','处女座','天秤座','天蝎座','射手座','摩羯座','水瓶座','双鱼座'];
+        let v = prompt(`修改星座 (${zodiacs.join('/')}):`, DB.d.ownerProfile.zodiac);
+        if(v && zodiacs.includes(v)) this.u('zodiac', v);
+        else if(v) alert("请输入有效的星座名称");
+    },
+    editGender() {
+        let v = prompt("修改性别 (男/女/保密):", DB.d.ownerProfile.gender);
+        if(v && ['男','女','保密'].includes(v)) this.u('gender', v);
+    },
+    editBio() {
+        let v = prompt("修改个性签名:", DB.d.ownerProfile.bio);
+        if(v) this.u('bio', v);
+    },
+    addTag() {
+        let v = prompt("添加标签:");
+        if(v) {
+            if(!DB.d.ownerProfile.tags) DB.d.ownerProfile.tags = [];
+            DB.d.ownerProfile.tags.push(v);
+            DB.save();
+            this.render();
+        }
+    },
+    removeTag(idx) {
+        if(confirm("删除此标签?")) {
+            DB.d.ownerProfile.tags.splice(idx, 1);
+            DB.save();
+            this.render();
+        }
+    },
+    openRelativeSettings() {
+        let p = DB.d.ownerProfile;
+        let boundContact = DB.getContact(p.relativeCardId);
+        let currentName = boundContact ? boundContact.name : "未绑定";
+
+        // Create a modal for selection
+        let modal = document.createElement('div');
+        modal.style.cssText = "position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);z-index:9999;display:flex;flex-direction:column;justify-content:flex-end;";
+        modal.onclick = (e) => { if(e.target === modal) modal.remove(); };
+
+        let content = document.createElement('div');
+        content.style.cssText = "background:var(--card-bg);border-radius:20px 20px 0 0;padding:20px;max-height:70%;overflow-y:auto;animation:msg-pop-in 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);";
+        
+        let header = document.createElement('div');
+        header.innerHTML = `<div style="text-align:center;font-weight:bold;font-size:18px;margin-bottom:10px">亲密付设置</div><div style="text-align:center;font-size:13px;color:#999;margin-bottom:20px">当前绑定: ${currentName}</div>`;
+        content.appendChild(header);
+
+        // Option: Unbind
+        if (p.relativeCardId) {
+            let unbindBtn = document.createElement('div');
+            unbindBtn.className = 'list-item';
+            unbindBtn.style.cssText = "padding:15px;border-radius:12px;margin-bottom:10px;background:#fff0f0;color:#ff3b30;justify-content:center;font-weight:bold";
+            unbindBtn.innerText = "解除绑定";
+            unbindBtn.onclick = () => {
+                this.u('relativeCardId', null);
+                Toast.show("已解绑");
+                modal.remove();
+            };
+            content.appendChild(unbindBtn);
+            
+            // Edit Balance Option
+            let editBalBtn = document.createElement('div');
+            editBalBtn.className = 'list-item';
+            editBalBtn.style.cssText = "padding:15px;border-radius:12px;margin-bottom:10px;background:#f9f9f9;justify-content:center;";
+            editBalBtn.innerText = "修改余额";
+            editBalBtn.onclick = () => {
+                modal.remove();
+                this.editRelWallet();
+            };
+            content.appendChild(editBalBtn);
+        }
+
+        let listLabel = document.createElement('div');
+        listLabel.innerText = "选择联系人绑定";
+        listLabel.style.cssText = "font-size:12px;color:#999;margin:10px 0 5px 5px";
+        content.appendChild(listLabel);
+
+        let contacts = DB.d.contacts.filter(c => !c.isGroup);
+        if (contacts.length === 0) {
+            let empty = document.createElement('div');
+            empty.innerText = "暂无联系人";
+            empty.style.cssText = "text-align:center;padding:20px;color:#ccc";
+            content.appendChild(empty);
+        }
+
+        contacts.forEach(c => {
+            let item = document.createElement('div');
+            item.className = 'list-item';
+            item.style.cssText = "padding:12px;border-radius:12px;margin-bottom:8px;background:#fff;border:1px solid rgba(0,0,0,0.05)";
+            item.innerHTML = `<div style="display:flex;align-items:center;gap:10px"><img src="${c.avatar||Utils.defAv}" style="width:32px;height:32px;border-radius:50%;object-fit:cover"><span>${c.name}</span></div>`;
+            if (c.id == p.relativeCardId) {
+                item.style.border = "1px solid var(--accent)";
+                item.innerHTML += `<span style="color:var(--accent);font-size:12px">当前</span>`;
+            }
+            item.onclick = () => {
+                this.u('relativeCardId', c.id);
+                Toast.show(`已绑定 ${c.name}`);
+                modal.remove();
+            };
+            content.appendChild(item);
+        });
+
+        let cancelBtn = document.createElement('div');
+        cancelBtn.className = 'btn-main';
+        cancelBtn.style.cssText = "margin-top:15px;background:#eee;color:#333";
+        cancelBtn.innerText = "取消";
+        cancelBtn.onclick = () => modal.remove();
+        content.appendChild(cancelBtn);
+
+        modal.appendChild(content);
+        document.body.appendChild(modal);
     },
     u(k, v) {
         if(!DB.d.ownerProfile) DB.d.ownerProfile = {};
@@ -8948,27 +9541,53 @@ const Settings = {
 };
 
 
-// --- apps/line.js --- 
+// --- apps/line.js ---
 const LineApp = {
     sw(idx, el) {
+        if (idx === 0) {
+            this.openMe();
+            return;
+        }
+
         let tabs = document.querySelectorAll('#app-line .tab-content');
         let navs = document.querySelectorAll('#app-line .nav-tab');
         let bottomNav = document.querySelector('#app-line .bottom-nav');
         
-        tabs.forEach((t,i) => t.classList.toggle('active', i===idx));
-        navs.forEach((t,i) => t.classList.toggle('active', i===idx));
+        // Adjust index for tabs (0-based in tabs list, but 1-based in nav list)
+        let tabIdx = idx - 1;
         
-        // Hide bottom nav if Moments (idx 2) is active
+        tabs.forEach((t,i) => t.classList.toggle('active', i===tabIdx));
+        navs.forEach((n,i) => n.classList.toggle('active', i===idx));
+        
+        // Hide bottom nav if Moments (idx 3) is active
         if(bottomNav) {
-            bottomNav.style.display = idx === 2 ? 'none' : 'flex';
+            bottomNav.style.display = idx === 3 ? 'none' : 'flex';
         }
         
-        if(idx===4) { // Me Tab
-            OwnerProfile.render();
-        }
-        if(idx===3) Diary.render();
-        if(idx===2) Moments.render();
-        if(idx===0) Contacts.render();
+        if(idx===4) Diary.render();
+        if(idx===3) Moments.render();
+        if(idx===1) Contacts.render();
+    },
+    openMe() {
+        $('me-drawer-overlay').style.display = 'block';
+        $('tab-me').style.display = 'flex';
+        // Force reflow
+        $('tab-me').offsetHeight;
+        $('me-drawer-overlay').style.opacity = 1;
+        $('tab-me').style.transform = 'translateX(0)';
+        $('global-status-bar').style.opacity = '0'; // Hide status bar
+        OwnerProfile.render();
+    },
+    closeMe() {
+        $('me-drawer-overlay').style.opacity = 0;
+        $('tab-me').style.transform = 'translateX(-100%)';
+        $('global-status-bar').style.opacity = '1'; // Show status bar
+        setTimeout(() => {
+            $('me-drawer-overlay').style.display = 'none';
+            // $('tab-me').style.display = 'none'; // Keep it flex to allow transition back? Or hide?
+            // Better to keep it visible but off-screen for transition, but display:none is safer for clicks.
+            // Let's wait for transition end.
+        }, 300);
     }
 };
 
