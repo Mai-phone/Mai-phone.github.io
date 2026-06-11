@@ -30315,6 +30315,28 @@ button.alt-avatar {
     white-space: nowrap;
 }
 
+.external-link-share-meta {
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    flex-wrap: wrap;
+}
+
+.external-link-share-status {
+    display: inline-flex;
+    align-items: center;
+    height: 19px;
+    padding: 0 7px;
+    border-radius: 999px;
+    background: rgba(108, 119, 132, 0.09);
+    color: #69727D;
+    font-size: calc(10.5px * var(--app-font-scale));
+    line-height: 1;
+    font-weight: 760;
+    white-space: nowrap;
+}
+
 .xhs-chat-share-card {
     cursor: pointer;
     user-select: none;
@@ -67085,19 +67107,6 @@ const XhsLinkShare = {
         try {
             msg.excerpt = this._usableExcerpt(msg.excerpt, msg);
             let debugParts = [];
-            let apiMeta = null;
-            try {
-                apiMeta = await this._fetchXhsApiMeta(url, options);
-            } catch(apiError) {
-                debugParts.push(this._formatFetchError('api', apiError));
-            }
-            if (apiMeta) {
-                if (apiMeta.title) msg.title = apiMeta.title;
-                if (apiMeta.author) msg.author = apiMeta.author;
-                if (apiMeta.excerpt) msg.excerpt = apiMeta.excerpt;
-                if (apiMeta.image) msg.remoteImage = apiMeta.image;
-                debugParts.push(apiMeta._debug || `api=200; excerpt=${apiMeta.excerpt ? apiMeta.excerpt.length : 0}; image=${apiMeta.image ? 1 : 0}`);
-            }
             let html = await this._fetchText(url, options.textTimeoutMs || 8000);
             let meta = this._parseHtmlMeta(html, url);
             debugParts.push(this._debugSummary(html, meta));
@@ -67109,6 +67118,21 @@ const XhsLinkShare = {
                 if (shareExcerpt) {
                     msg.excerpt = shareExcerpt;
                     debugParts.push(`share-text=${shareExcerpt.length}`);
+                }
+            }
+            if (!msg.excerpt) {
+                let apiMeta = null;
+                try {
+                    apiMeta = await this._fetchXhsApiMeta(url, options);
+                } catch(apiError) {
+                    debugParts.push(this._formatFetchError('api', apiError));
+                }
+                if (apiMeta) {
+                    if (apiMeta.title) msg.title = apiMeta.title;
+                    if (apiMeta.author) msg.author = apiMeta.author;
+                    if (apiMeta.excerpt) msg.excerpt = apiMeta.excerpt;
+                    if (apiMeta.image) msg.remoteImage = apiMeta.image;
+                    debugParts.push(apiMeta._debug || `api=200; excerpt=${apiMeta.excerpt ? apiMeta.excerpt.length : 0}; image=${apiMeta.image ? 1 : 0}`);
                 }
             }
             msg.excerpt = this._usableExcerpt(msg.excerpt, msg);
@@ -67149,6 +67173,7 @@ const XhsLinkShare = {
         let items = c.history.slice(-4).filter(m => {
             if (!m || m.type !== 'link-share' || m.platform !== 'xhs') return false;
             if (this._usableExcerpt(m.excerpt, m) && m.fetchState === 'done') return false;
+            if (m.fetchState === 'no-content') return false;
             if (now - Number(m.time || 0) > maxAge) return false;
             return !!m.url;
         });
@@ -67174,7 +67199,7 @@ const XhsLinkShare = {
         let parts = [`${userDisplay} 分享了一篇小红书笔记：《${title}》`];
         if (author) parts.push(`作者：${author}`);
         if (excerpt) parts.push(`正文摘要：${excerpt}`);
-        else parts.push('正文摘要：未抓到，当前只解析到标题/作者。');
+        else parts.push('可见信息只有标题/作者；正文未随链接公开返回，不要编造正文，只基于标题/作者自然接话。');
         return `[${parts.join('；')}]`;
     },
 
@@ -67189,6 +67214,12 @@ const XhsLinkShare = {
         let author = String(message && message.author || '').trim();
         let source = author ? `小红书 · ${author}` : '小红书';
         let thumb = String(message && message.thumb || '');
+        let excerpt = this._usableExcerpt(message && message.excerpt, { title, author });
+        let state = String(message && message.fetchState || '');
+        let status = '';
+        if (!excerpt && state === 'pending') status = '解析中';
+        else if (!excerpt && state === 'no-content') status = '仅标题/作者';
+        else if (!excerpt && state === 'failed') status = '正文未抓到';
         return `
             <div class="external-link-share">
                 <a class="external-link-share-url" href="${esc(url)}" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">${esc(url)}</a>
@@ -67196,7 +67227,10 @@ const XhsLinkShare = {
                     ${thumb ? `<span class="external-link-share-thumb"><img src="${esc(thumb)}" alt="" onerror="this.closest('.external-link-share-thumb').style.display='none';this.closest('.external-link-share-card').classList.add('no-thumb')"></span>` : ''}
                     <span class="external-link-share-copy">
                         <span class="external-link-share-title">${esc(title)}</span>
-                        <span class="external-link-share-source">${esc(source)}</span>
+                        <span class="external-link-share-meta">
+                            <span class="external-link-share-source">${esc(source)}</span>
+                            ${status ? `<span class="external-link-share-status">${esc(status)}</span>` : ''}
+                        </span>
                     </span>
                 </a>
             </div>
